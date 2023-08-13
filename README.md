@@ -1,0 +1,1 @@
+# vrg_colmap_reconstruction_evaluation
