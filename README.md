@@ -5,6 +5,7 @@ This repository seeks to document and automate the evaluation process of image p
 OS: Ubuntu 22.04 <br>
 "{i}" indicates specific directory paths for reference, where you need to install the following three repositories and other resources.
 These paths can be chosen at your discretion, use your own paths instead of {i} and ensure their utilization within the 'configuration.txt' file to configure the settings in a subsequent section
+When running the scripts do not change the items of the directories involved because that could cause unwanted problems
 
 ## 1.0.1 Install vrg_crop_gen
 Follow the process at https://github.com/VIS4ROB-lab/vrg_crop_gen and install it in a specific folder {1} <br>
@@ -42,6 +43,9 @@ You can find the repository in this link https://github.com/ETH3D/slam-evaluatio
 --crop_gen_path={1}/vrg_crop_gen
 --colmap_path={2}/colmap
 --slam_evaluation_path={3}/slam-evaluation
+--vrg_colmap_evaluation_path={6}
+{6} = "/home/christos/Desktop/Gate/thesis/3d-reconstruction/programs/evaluation_repo/vrg_colmap_reconstruction_evaluation"
+This is the path of the current repository
   
 ## 1.0.5 Creating the dataset using vrg_crop_gen
 First a dataset has to be created. Read the documentation of vrg_crop_gen to learn about the process. 
