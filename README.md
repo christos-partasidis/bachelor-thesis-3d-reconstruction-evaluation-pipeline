@@ -1,25 +1,28 @@
 # Description
 This repository seeks to document and automate the evaluation process of image poses generated during reconstruction when using colmap
 
-## General Info
+## 1.0.0 General Info
 OS: Ubuntu 22.04 <br>
 "{i}" indicates specific directory paths for reference, where you need to install the following three repositories and other resources.
 These paths can be chosen at your discretion, use your own paths instead of {i} and ensure their utilization within the 'configuration.txt' file to configure the settings in a subsequent section
 
-## Install vrg_crop_gen
+## 1.0.1 Install vrg_crop_gen
 Follow the process at https://github.com/VIS4ROB-lab/vrg_crop_gen and install it in a specific folder {1} <br>
+Warning! The vrglasses_csv that must be installed with vrg_crop_gen (see later in documentation) must be placed inside the dedicated folder found within vrg_crop_gen or else the scripts 
+will not work and manual changes must be done
+
 {1} = "/home/christos/Desktop/Gate/thesis/3d-reconstruction/programs/dataset-simulation-fixing"
 
-## Install colmap
+## 1.0.2 Install colmap
 Follow the installation process at https://colmap.github.io/install.html and install it in a specific folder {2} <br>
 {2} = "/home/christos/Desktop/Gate/thesis/3d-reconstruction/programs"
 
-## Install slam-evaluation
+## 1.0.3 Install slam-evaluation
 Below you can find the steps to install it.
 You can find the repository in this link https://github.com/ETH3D/slam-evaluation
 
-{3} = "/home/christos/Desktop/Gate/thesis/3d-reconstruction/programs"
-{4} = "/home/christos/Downloads"
+{3} = "/home/christos/Desktop/Gate/thesis/3d-reconstruction/programs" <br>
+{4} = "/home/christos/Downloads" <br>
 {5} = "/home/christos/Desktop/Gate/thesis/3d-reconstruction/programs/slam-evaluation/src"
 
 1. Download Eigen 3.4.0 (in .tar.bz2) from http://eigen.tuxfamily.org/index.php?title=Main_Page#Download 
@@ -34,10 +37,17 @@ You can find the repository in this link https://github.com/ETH3D/slam-evaluatio
 - Navigate within the slam-evaluation/src directory using "cd {5}"
 - Type "g++ -o main_executable main.cc -I {4}/eigen-*". Use the "tab" button to fill the *
   
-## Creating the dataset using vrg_crop_gen
+## 1.0.4 Configuring the configuration_flags.txt
+- Open configuration_flags.txt and paste your directory paths, follow the structure below:
+--crop_gen_path={1}/vrg_crop_gen
+--colmap_path={2}/colmap
+--slam_evaluation_path={3}/slam-evaluation
+  
+## 1.0.5 Creating the dataset using vrg_crop_gen
 First a dataset has to be created. Read the documentation of vrg_crop_gen to learn about the process. 
-After modifying the vk_glasses_flags.txt inside vrg_crop_gen and following the documentation, and modifying the configuration_of_scenes/config_general/config0.yamkl
-(others yamls inside have been moved in order to run only one creation of a dataset), run the script inside src to...
+After modifying the vk_glasses_flags.txt inside vrg_crop_gen and following the documentation, and modifying the configuration_of_scenes/config_general/config0.yaml
+(others yamls inside have been moved in order to run only one creation of one dataset), run the script inside the src directory to create the dataset using the following command
+- bash create_dataset.sh
 
 
 
