@@ -20,17 +20,42 @@ You can find the repository in this link https://github.com/ETH3D/slam-evaluatio
 
 {3} = "/home/christos/Desktop/Gate/thesis/3d-reconstruction/programs"
 {4} = "/home/christos/Downloads"
+{5} = "/home/christos/Desktop/Gate/thesis/3d-reconstruction/programs/slam-evaluation/src"
 
-1. Install the repository in a specific folder {3}. I followed the steps below. Type them in a terminal
+1. Download Eigen 3.4.0 (in .tar.bz2) from http://eigen.tuxfamily.org/index.php?title=Main_Page#Download 
+- Open a terminal and navigate at the directory where it contains the archive by typing "cd {4}"
+- Extract the archive by typing "tar -xjf eigen-*.tar.bz2". Use the "tab" button to fill the *
+
+2. Install the repository in a specific folder {3}. I followed the steps below. Type them in a terminal
 - cd {3}
 - git clone https://github.com/ETH3D/slam-evaluation.git
-- cd slam-evaluation/src
+
+3. Compile the program
+- Navigate within the slam-evaluation/src directory using "cd {5}"
+- Type "g++ -o main_executable main.cc -I {4}/eigen-*". Use the "tab" button to fill the *
   
-2. Download Eigen 3.4.0 (in .tar.bz2) from http://eigen.tuxfamily.org/index.php?title=Main_Page#Download 
-- Open a terminal and navigate to the directory where you downloaded the Eigen archive{4}
-- cd  
-- Use the following commands to extract the archive:
-- tar -xjf eigen-eigen-*.tar.bz2
+## Creating the dataset using vrg_crop_gen
+First a dataset has to be created. Read the documentation of vrg_crop_gen to learn about the process. 
+After modifying the vk_glasses_flags.txt inside vrg_crop_gen and following the documentation, and modifying the configuration_of_scenes/config_general/config0.yamkl
+(others yamls inside have been moved in order to run only one creation of a dataset), run the script inside src to...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
