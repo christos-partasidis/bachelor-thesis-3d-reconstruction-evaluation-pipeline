@@ -4,7 +4,7 @@ This repository seeks to document and automate the evaluation process of image p
 ## 1.0.0 General Info
 OS: Ubuntu 22.04 <br>
 "{i}" indicates specific directory paths for reference, where you need to install the following three repositories and other resources.
-These paths can be chosen at your discretion, use your own paths instead of {i} and ensure their utilization within the 'configuration.txt' file to configure the settings in a subsequent section
+These paths can be chosen at your discretion, use your own paths instead of {i} and ensure their utilization within the 'configuration_flags.txt' file to configure the settings(following section).
 When running the scripts do not change the items of the directories involved because that could cause unwanted problems
 
 ## 1.0.1 Install vrg_crop_gen
@@ -39,7 +39,7 @@ You can find the repository in this link https://github.com/ETH3D/slam-evaluatio
 - Type "g++ -o main_executable main.cc -I {4}/eigen-*". Use the "tab" button to fill the *
   
 ## 1.0.4 Configuring the configuration_flags.txt
-- Open configuration_flags.txt and paste your directory paths, follow the structure below:
+- Open configuration_flags.txt which is located at {6} and paste your directory paths, follow the structure below:
 --crop_gen_path={1}/vrg_crop_gen
 --colmap_path={2}/colmap
 --slam_evaluation_path={3}/slam-evaluation
