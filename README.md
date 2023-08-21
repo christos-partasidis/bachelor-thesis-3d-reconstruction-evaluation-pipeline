@@ -9,7 +9,7 @@ When running the scripts do not change the items of the directories involved bec
 
 ## 1.0.1 Install vrg_crop_gen
 Follow the process at https://github.com/VIS4ROB-lab/vrg_crop_gen and install it in a specific folder {1} <br>
-Warning! The vrglasses_csv that must be installed with vrg_crop_gen (see later in documentation) must be placed inside the dedicated folder found within vrg_crop_gen or else the scripts 
+Warning! The vrglasses_csv that must be installed with vrg_crop_gen (in vrg_crop_gen documentation) must be placed inside the dedicated folder found within vrg_crop_gen or else the scripts 
 will not work and manual changes must be done
 
 {1} = "/home/christos/Desktop/Gate/thesis/3d-reconstruction/programs/dataset-simulation-fixing"
@@ -50,10 +50,11 @@ This is the path of the current repository
 ## 1.0.5 Creating the dataset using vrg_crop_gen
 First a dataset has to be created. Read the documentation of vrg_crop_gen to learn about the process. 
 After modifying the vk_glasses_flags.txt inside vrg_crop_gen and following the documentation, and modifying the configuration_of_scenes/config_general/config0.yaml
-(others yamls inside have been moved in order to run only one creation of one dataset), run the script inside the src directory to create the dataset using the following command
+(others yamls inside have been moved in order to run only one creation of one dataset), run the script inside the src directory {7} to create the dataset using the following command
+{7} = "/home/christos/Desktop/Gate/thesis/3d-reconstruction/programs/evaluation_repo/vrg_colmap_reconstruction_evaluation/source"
 - bash create_dataset.sh
 
-
+## 1.0.6 
 
 
 
