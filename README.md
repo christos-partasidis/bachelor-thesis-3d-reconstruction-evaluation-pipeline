@@ -50,7 +50,7 @@ This is the path of the current repository
 ## 1.0.5 Creating the dataset using vrg_crop_gen
 First a dataset has to be created. Read the documentation of vrg_crop_gen to learn about the process. 
 After modifying the vk_glasses_flags.txt inside vrg_crop_gen and following the documentation, and modifying the configuration_of_scenes/config_general/config0.yaml
-(others yamls inside have been moved in order to run only one creation of one dataset), run the script inside the src directory {7} to create the dataset using the following command
+(others yamls inside have been moved in order to run only one creation of one dataset), run the script inside the src directory found in {7} to create the dataset using the following command <br>
 {7} = "/home/christos/Desktop/Gate/thesis/3d-reconstruction/programs/evaluation_repo/vrg_colmap_reconstruction_evaluation/source"
 - bash create_dataset.sh
 
