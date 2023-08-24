@@ -54,7 +54,52 @@ After modifying the vk_glasses_flags.txt inside vrg_crop_gen and following the d
 {7} = "/home/christos/Desktop/Gate/thesis/3d-reconstruction/programs/evaluation_repo/vrg_colmap_reconstruction_evaluation/source"
 - bash create_dataset.sh
 
-## 1.0.6 
+## 1.0.6 Reconstruction (manual process)
+This is the manual process of reconstruction. This is the suggested path to follow because they are way more configurations to work with and that will lead to a better reconstruction.
+If you will follow this section skip section ## 1.0.7 else skip this and go directly to ## 1.0.7 for the automated process
+
+1) Preparing the dataset
+This script moves the images within the target directory found in latest.txt one parent directory up,
+to avoid dublicates when reconstructing. The latest.txt has the directory name of the latest dataset created if you followed ## 1.0.5.
+If you want to prepare another directory just change the line inside latest.txt to the directory name you want to prepare.
+This script again just moves all the images inside around_view_rgb within output_dataset_images directly at output_dataset_images
+Navigate at {6}/source and execute "bash prepare_dataset.sh". 
+
+2) Manually reconstructing through colmap
+- Navigate at {2}/colmap/build by typing in the terminal "cd {2}/colmap/build" 
+- Open the colmap GUI by typing in the terminal "colmap gui"
+- At the GUI navigate File -> Project
+- Click new at the Database section, navigate inside the dataset directory created located at {6}/projects/* where the * is the name of the directory containing the dataset you want to reconstruct, name it database, click save
+- Click select on Images section, navigate to {6}/projects/*/output_dataset_mages directory and click open
+- Click save
+- File -> Save project, navigate at {6}/projects/* directory and name it "project" 
+
+![image](https://github.com/VIS4ROB-lab/vrg_colmap_reconstruction_evaluation/assets/113234371/a336bf98-323f-4ed6-abdc-60ca92ffacc8 "This is the structure you should have")
+
+- Processing → Feature extraction 
+- Some configurations should change depending on your dataset but this is just a demonstration of what I have been doing with the dataset created from vrg_crop_gen
+- Change camera model by clicking on "SIMPLE_RADIAL" which is the default option, to "SIMPLE_PINHOLE"
+- Check "Shared for all images"
+- Check "Custom parameters"
+- To write the custom parameters navigate to {1}/vrg_crop_gen/source through file explorer or terminal
+- Open vk_glasses_csv_flags.txt  
+![image](https://github.com/VIS4ROB-lab/vrg_colmap_reconstruction_evaluation/assets/113234371/681d2f9c-087a-4be4-aade-69620611d223 "Check f, cx, cy")
+- Now depending on your vk_glasses_csv_flags.txt write in the colmap section the f, cx, cy you checked. Note that in my case fx, fy and f are all the same
+- Again feel free to modify any configurations as you wish. This is why I recommend the manual process
+- Click "extract"
+- Once the exctraction is finished, close the tab for extraction and go back to the colmap main gui
+- Processing → Feature Matching
+- If the number of images is a few hundreds select "Exhaustive" method or else check colmap documentation for recommendations. Again modify any configurations you find necessary
+- Click "Run"
+
+
+
+
+
+
+
+
+## 1.0.7 Reconstruction (automated process)
 
 
 
