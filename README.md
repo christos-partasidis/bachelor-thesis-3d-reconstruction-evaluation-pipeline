@@ -3,20 +3,20 @@ This repository seeks to document and automate the evaluation process of image p
 
 ## 1.0.0 General Info
 OS: Ubuntu 22.04 <br>
-python: 3.10
+python: 3.10 <br>
 "{i}" indicates specific directory paths for reference, where you need to install the following three repositories and other resources.
-These paths can be chosen at your discretion, use your own paths instead of {i} and ensure their utilization within the 'configuration_flags.txt' file to configure the settings(following section).
+These paths can be chosen at your discretion, use your own paths instead of {i} and ensure their utilization within the 'configuration_flags.txt' file to configure the settings(following section) <br>
 When running the scripts do not change the contained files within the directories involved because that could cause unwanted problems
 
 ## 1.0.1 Install vrg_crop_gen
-Follow the process at https://github.com/VIS4ROB-lab/vrg_crop_gen and install it in a specific folder {1} <br>
+Follow the process at https://github.com/VIS4ROB-lab/vrg_crop_gen and install it in a specific directory {1} <br>
 Warning! The vrglasses_csv that must be installed with vrg_crop_gen (in vrg_crop_gen documentation) must be placed inside the dedicated folder found within vrg_crop_gen or else the scripts 
 will not work and manual changes must be done
 
 {1} = "/home/christos/Desktop/Gate/thesis/3d-reconstruction/programs/dataset-simulation-fixing"
 
 ## 1.0.2 Install colmap
-Follow the installation process at https://colmap.github.io/install.html and install it in a specific folder {2} <br>
+Follow the installation process at https://colmap.github.io/install.html and install it in a specific directory {2} <br>
 {2} = "/home/christos/Desktop/Gate/thesis/3d-reconstruction/programs"
 
 ## 1.0.3 Install slam-evaluation
@@ -31,7 +31,7 @@ You can find the repository in this link https://github.com/ETH3D/slam-evaluatio
 - Open a terminal and navigate at the directory where it contains the archive by typing "cd {4}"
 - Extract the archive by typing "tar -xjf eigen-*.tar.bz2". Use the "tab" button to fill the *
 
-2. Install the repository in a specific folder {3}. I followed the steps below. Type them in a terminal
+2. Install the repository in a specific directory {3}. I followed the steps below. Type them in a terminal
 - cd {3}
 - git clone https://github.com/ETH3D/slam-evaluation.git
 
@@ -53,7 +53,7 @@ First a dataset has to be created. Read the documentation of vrg_crop_gen to lea
 After modifying the vk_glasses_flags.txt inside vrg_crop_gen and following the documentation, and modifying the configuration_of_scenes/config_general/config0.yaml
 (others yamls inside have been moved in order to run only one creation of one dataset), run the script inside the source directory found in {7} to create the dataset using the following command <br>
 {7} = "/home/christos/Desktop/Gate/thesis/3d-reconstruction/programs/evaluation_repo/vrg_colmap_reconstruction_evaluation/source"
-- bash create_dataset.sh
+- bash create_dataset_general.sh
 
 ## 1.0.6 Reconstruction (manual process)
 This is the manual process of reconstruction. This is the suggested path to follow because they are way more configurations to work with and that will lead to a better reconstruction.
@@ -69,11 +69,11 @@ Navigate at {6}/source and execute "bash prepare_dataset.sh"
 2) Manually reconstructing through colmap
 - Navigate at {2}/colmap/build by typing in the terminal "cd {2}/colmap/build" 
 - Open the colmap GUI by typing in the terminal "colmap gui"
-- At the GUI navigate File -> Project
-- Click "New" at the Database section, navigate inside the dataset directory created, located at {6}/projects/* where the * is the name of the directory containing the dataset you want to reconstruct, name it "database", click "Save"
-- Click "Select" on Images section, navigate to {6}/projects/*/output_dataset_images directory and click open
+- At the GUI navigate File -> New project
+- Click "New" at the "Database" section, navigate inside the dataset directory created, located at {6}/projects/* where the * is the name of the directory containing the dataset you want to reconstruct, name it "database", click "Save"
+- Click "Select" at the "Images" section, navigate to {6}/projects/*/output_dataset_images directory and click open
 - Click "Save"
-- File -> Save project, navigate at {6}/projects/* directory and name it "project" 
+- File -> Save project, navigate at {6}/projects/* directory, name it "project" , slick "Save"
 
 ![image](https://github.com/VIS4ROB-lab/vrg_colmap_reconstruction_evaluation/assets/113234371/a336bf98-323f-4ed6-abdc-60ca92ffacc8 "This is the structure you should have")
 
@@ -94,7 +94,7 @@ Navigate at {6}/source and execute "bash prepare_dataset.sh"
 - Click "Run"
 - Once finished close the Feature Matching tab
 - Next back in the main colmap gui click Reconstruction → Start reconstruction
-- Once finished File → Export all models and select the {6}/projects/* directory
+- Once finished click File → Export all models and select the {6}/projects/* directory and click "Open"
 ![image](https://github.com/VIS4ROB-lab/vrg_colmap_reconstruction_evaluation/assets/113234371/64df17f0-79ca-4949-9594-2186e49d15b5 "This is the sparse reconstruction")
 - At this point the sparse reconstruction has been created. Now exporting the model by following the previous step creates a directory that contains some binary files, but we care about images.bin which are the estimates for the images in binary format
 - This is in binary form, for our convenience we want to create them in text format. Previous step was done just for book keeping
@@ -102,7 +102,7 @@ Navigate at {6}/source and execute "bash prepare_dataset.sh"
 
 ![image](https://github.com/VIS4ROB-lab/vrg_colmap_reconstruction_evaluation/assets/113234371/8154320f-05a8-41fe-95de-fc780f07d0fb "Inside 0 directory")
 
-- File → Export model as text, and select the "0" directory to export as .txt <br>
+- File → Export model as text, select the "0" directory and click "Open". This will export them as .txt <br>
 ![image](https://github.com/VIS4ROB-lab/vrg_colmap_reconstruction_evaluation/assets/113234371/9fcfd29e-1043-4d4e-b915-b014e2583c48 "Inside 0 directory")
 - At this point this is enough to create the evaluation of the image poses, dense reconstruction can be skipped (the following steps of this section)
 - Reconstruction → Dense reconstruction
@@ -121,12 +121,12 @@ Navigate at {6}/source and execute "bash prepare_dataset.sh"
 Before continuing some clarifications
 1) The {6}/projects/*/output_dataset_txt/image_poses.txt text file contains the ground truth of the image poses
 2) The {6}/projects/*/0/images.txt text file contains the estimated image poses <br>
-To remove any extra data, and to bring it in a format acceptable by the slam_evaluation repository run the following script. Please keep in mind that the script will perform the formatting on the directory found within "latest.txt" found in {6}/projects/ much like before.
-- Within {6}/source run "bash format_all.sh"
+- To remove any extra data, and to bring it in a format acceptable by the slam_evaluation repository run the following script. Please keep in mind that the script will perform the formatting on the directory found within "latest.txt" found in {6}/projects/ much like before
+- Within {6}/source run "bash format_all.sh" <br>
 This will create a directory called "evaluation" within {6}/projects/*/ that will include ground_truth.txt for the ground truth of the image poses and estimated_trajectory.txt for the estimated image poses but all formatted
 
 ## 1.0.9 Running the evaluation of the image poses
-At v{6}/source run the evaluation script. Keep in mind that the project that will be evaluated is the project that is in latest.txt
+At {6}/source run the evaluation script. Keep in mind that the project that will be evaluated is the project that is in latest.txt
 - bash evaluate.sh
 
 
