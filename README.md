@@ -126,6 +126,9 @@ To remove any extra data, and to bring it in a format acceptable by the slam_eva
 This will create a directory called "evaluation" within {6}/projects/*/ that will include ground_truth.txt for the ground truth of the image poses and estimated_trajectory.txt for the estimated image poses but all formatted
 
 ## 1.0.9 Running the evaluation of the image poses
+At v{6}/source run the evaluation script. Keep in mind that the project that will be evaluated is the project that is in latest.txt"
+- bash evaluate.sh
+
 
 
 
