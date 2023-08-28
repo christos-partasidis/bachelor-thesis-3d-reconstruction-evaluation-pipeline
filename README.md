@@ -3,6 +3,7 @@ This repository seeks to document and automate the evaluation process of image p
 
 ## 1.0.0 General Info
 OS: Ubuntu 22.04 <br>
+python: 3.10
 "{i}" indicates specific directory paths for reference, where you need to install the following three repositories and other resources.
 These paths can be chosen at your discretion, use your own paths instead of {i} and ensure their utilization within the 'configuration_flags.txt' file to configure the settings(following section).
 When running the scripts do not change the contained files within the directories involved because that could cause unwanted problems
@@ -58,7 +59,7 @@ After modifying the vk_glasses_flags.txt inside vrg_crop_gen and following the d
 This is the manual process of reconstruction. This is the suggested path to follow because they are way more configurations to work with and that will lead to a better reconstruction.
 If you will follow this section skip section ## 1.0.7 else skip this and go directly to ## 1.0.7 for the automated process
 
-1) Preparing the dataset <br>
+1) Preparing the dataset for reconstruction <br>
 This script moves the images within the target directory found in latest.txt one parent directory up,
 to avoid dublicates when reconstructing. The latest.txt has the directory name of the latest dataset created if you followed ## 1.0.5.
 If you want to prepare another directory just change the line inside latest.txt to the directory name you want to prepare.
@@ -101,9 +102,31 @@ Navigate at {6}/source and execute "bash prepare_dataset.sh"
 
 ![image](https://github.com/VIS4ROB-lab/vrg_colmap_reconstruction_evaluation/assets/113234371/8154320f-05a8-41fe-95de-fc780f07d0fb "Inside 0 directory")
 
-- File → Export model as text, and select the "0" directory to export as txt
+- File → Export model as text, and select the "0" directory to export as .txt <br>
+![image](https://github.com/VIS4ROB-lab/vrg_colmap_reconstruction_evaluation/assets/113234371/9fcfd29e-1043-4d4e-b915-b014e2583c48 "Inside 0 directory")
+- At this point this is enough to create the evaluation of the image poses, dense reconstruction can be skipped (the following steps of this section)
+- Reconstruction → Dense reconstruction
+- Click "Select" to select a workspace, choose {6}/projects/* directory
+- Click "Undistortion"
+- Click "Stereo"
+- Click "Fusion"
+- Click "Poisson"
+![image](https://github.com/VIS4ROB-lab/vrg_colmap_reconstruction_evaluation/assets/113234371/aa2e8ee9-088f-4f78-a408-e0c908c42edd)
+
 
 ## 1.0.7 Reconstruction (automated process)
+* paused *
+
+## 1.0.8 Preparing the text files of the poses for the evaluation
+Before continuing some clarifications
+1) The {6}/projects/*/output_dataset_txt/image_poses.txt text file contains the ground truth of the image poses
+2) The {6}/projects/*/0/images.txt text file contains the estimated image poses <br>
+To remove any extra data, and to bring it in a format acceptable by the slam_evaluation repository run the following script. Please keep in mind that the script will perform the formatting on the directory found within "latest.txt" found in {6}/projects/ much like before.
+- Within {6}/source run "bash format_all.sh"
+This will create a directory called "evaluation" within {6}/projects/*/ that will include ground_truth.txt for the ground truth of the image poses and estimated_trajectory.txt for the estimated image poses but all formatted
+
+## 1.0.9 Running the evaluation of the image poses
+
 
 
 
