@@ -174,11 +174,15 @@ do
   echo "project_directory:$project_directory"
 
 
-  # Change to the target directory
+  # Change to the "projects" directory
   cd "$target_directory"
-
-
-  # Change to the directory using its name
+    
+  # Write the value of the directory_name variable to a .txt file named latest.txt
+  echo "$directory_name" > "latest.txt"
+  
+  echo "Value written to 'latest.txt' in the current directory."
+  
+  # Change to the new dataset directory 
   cd "$directory_name"
   
 

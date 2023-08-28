@@ -1,0 +1,1 @@
+This text will be replaced with the name of the directory to be evaluated that is inside the projects directory

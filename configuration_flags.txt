@@ -1,0 +1,11 @@
+--crop_gen_path=/home/christos/Desktop/Gate/thesis/3d-reconstruction/programs/dataset-simulation-fixing/vrg_crop_gen
+--colmap_path=/home/christos/Desktop/Gate/thesis/3d-reconstruction/programs/colmap
+--slam_evaluation_path=/home/christos/Desktop/Gate/thesis/3d-reconstruction/programs/slam-evaluation
+--vrg_colmap_evaluation_path=/home/christos/Desktop/Gate/thesis/3d-reconstruction/programs/evaluation_repo/vrg_colmap_reconstruction_evaluation
+
+
+
+
+
+
+
