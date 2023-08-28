@@ -148,8 +148,24 @@ if [ -f "$latest_file" ]; then
             # exit 1
 
             ./main_executable ../ground_truth.txt ../estimated_trajectory.txt ../rgb.txt --max_interpolation_timespan 2 --all_visualizations --write_estimated_trajectory_ply
-
+            
             echo "Finished evaluation."
+
+            # Sleep for 2 seconds
+            sleep 2
+
+            # Move files from evaluation back to the evaluation directory
+            mv *.ply *.svg "$project_dir/evaluation/"
+            echo "Moved .ply .svg evaluation files back to project"
+
+            # Move to slam-evaluation directory
+            cd ..
+            
+            # Move specific files to the evaluation directory
+            mv "ground_truth.txt" "estimated_trajectory.txt" "rgb.txt" "$project_dir/evaluation/"
+            echo "Moved ground_truth, estimated_trajectory, rgb back to project"
+
+            
             
         else
             echo "The following required files are missing: ${missing_files[@]}. Exiting..."
