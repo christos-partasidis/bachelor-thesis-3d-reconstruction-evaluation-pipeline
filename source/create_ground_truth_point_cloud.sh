@@ -2,6 +2,9 @@
 #==================================================================
 #==================================================================
 #==================================================================
+# COMMENTS
+# 0 -> crop_gen_path, 1 -> colmap_path, 2 -> slam_evaluation_path
+# 4 -> evaluation_path
 
 # Get the directory of the current script
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
@@ -48,13 +51,6 @@ if [ -f "$CONF_TXT_FILE" ]; then
 else
     echo "Text file not found: $CONF_TXT_FILE"
 fi
-# COMMENTS
-# 0 -> crop_gen_path, 1 -> colmap_path, 2 -> slam_evaluation_path
-# 4 -> evaluation_path
-#==================================================================
-#==================================================================
-#==================================================================
-echo "${var_values[0]}"
 
 # THE FOLLOWING SECTION IS USED TO READ THE LATEST.TXT
 #==================================================================
@@ -70,6 +66,7 @@ else
     echo "$LATEST_TXT_FILE does not exist. Exiting."
     exit 1
 fi
+
 # THE FOLLOWING SECTION IS USED TO READ THE MODEL_POSES_LIST.TXT
 #==================================================================
 #==================================================================
@@ -85,7 +82,8 @@ if [ ! -f "$MODEL_POSES_TXT_FILE" ]; then
 fi
 
 # THE FOLLOWING SECTION IS USED TO READ THE OBJECTS WITHIN MODEL
-# INSIDE CROP_GEN
+# INSIDE CROP_GEN, TRANSFORM THEM IN XYZ FORMAT AND COMBINE THEM
+# TO CREATE A GROUND TRUTH POINT CLOUD
 #==================================================================
 #==================================================================
 #==================================================================
@@ -97,6 +95,8 @@ if [ ! -d "$CROP_GEN_MODEL_DIR" ]; then
     echo "Directory $CROP_GEN_MODEL_DIR does not exist. Exiting."
     exit 1
 fi
+
+echo "THE CROP_GEN_MODEL_DIR IS !!!!! + $CROP_GEN_MODEL_DIR"
 
 # Call the Python script with MODEL_POSES_TXT_FILE as an argument
 python3.10 create_ground_truth_point_cloud.py "$MODEL_POSES_TXT_FILE" "$CROP_GEN_MODEL_DIR"
@@ -110,19 +110,23 @@ if [ $python_exit_code -ne 0 ]; then
     exit $python_exit_code
 fi
 
+PROJECT_DIR_PATH="$SCRIPT_DIR/../projects/$first_line"
+
+GT_XYZ_FILE="ground_truth_point_cloud.xyz"
+XYZ_FORMAT_DIR="xyz_format"
+
+# Check if the target directory exists
+if [ ! -d "$PROJECT_DIR_PATH" ]; then
+    echo "Error: Target directory '$PROJECT_DIR_PATH' does not exist. Exiting."
+    exit 1
+fi
+
+# Move the file "ground_truth_point_cloud.xyz" to the project  directory
+mv "$GT_XYZ_FILE" "$PROJECT_DIR_PATH"
+echo "Moved ground_truth_point_cloud.xyz to project directory ($firstline)"
+
+# Move the directory "xyz_format" to the target directory
+mv "$XYZ_FORMAT_DIR" "$PROJECT_DIR_PATH"
+echo "Moved xyz_format directory to project directory ($firstline)"
+
 echo "Success: Created the ground truth of the point cloud"
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
