@@ -129,6 +129,9 @@ This will create a directory called "evaluation" within {6}/projects/*/ that wil
 At {6}/source run the evaluation script. Keep in mind that the project that will be evaluated is the project that is in latest.txt
 - bash evaluate.sh
 
+## 1.0.10 Creating the ground truth point cloud
+At {6}/source run the script. Keep in mind that the project that will be the base for the creation is in latest.txt
+- bash create_ground_truth_point_cloud.sh
 
 
 
