@@ -133,7 +133,7 @@ At {6}/source run the evaluation script. Keep in mind that the project that will
 At {6}/source run the script. Keep in mind that the project that will be the base for the creation is in latest.txt
 - bash create_ground_truth_point_cloud.sh
 
-## 1.2.0 Python script to remake the .mtl files in the models
+## 1.1.0 Python script to remake the .mtl files in the models
 The models found in {1}/vrg_crop_gen/resources/model need to have an appropriate .mtl file. For most of the objects that file might be missing or needs a modification.
 The script named "create_mtls.py" found in the {6}/source (this repository) automates the process of the creating the .mtl files.
 There is an exception for the Fence objects. Only the Fence2 object has a valid texture. If you want to add other fence objects the script must be modified.
