@@ -133,8 +133,12 @@ At {6}/source run the evaluation script. Keep in mind that the project that will
 At {6}/source run the script. Keep in mind that the project that will be the base for the creation is in latest.txt
 - bash create_ground_truth_point_cloud.sh
 
-
-
+## 1.2.0 Python script to remake the .mtl files in the models
+The models found in {1}/vrg_crop_gen/resources/model need to have an appropriate .mtl file. For most of the objects that file might be missing or needs a modification.
+The script named "create_mtls.py" found in the {6}/source (this repository) automates the process of the creating the .mtl files.
+Below you can find the steps to run the script
+1) Take the script "create_mtls.py" and place it at {1}/vrg_crop_gen/resources
+2) Run the python script
 
 
 
