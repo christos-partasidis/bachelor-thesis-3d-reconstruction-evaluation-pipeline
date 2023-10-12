@@ -40,6 +40,9 @@ map_d ../../../textures/{subdirectory}/{object_name2}.jpg
                 object_name2 = object_name
                 # Define the .mtl file content with the dynamic texture reference and additional material properties
                 mtl_content = f"""\
+                
+            
+            
 newmtl {object_name}  # Use object name as material name
 Ka 1.000000 1.000000 1.000000
 Kd 0.800000 0.800000 0.800000
@@ -57,5 +60,35 @@ map_d ../../textures/{subdirectory}/{object_name2}.jpg
 
             with open(mtl_file_path, 'w') as mtl_file:
                 mtl_file.write(mtl_content)
+            
+            # Create a dictionary to store material names
+            material_names = {}
+            
+            obj_file = os.path.join(obj_directory, obj_file)
+
+            # Open the OBJ file for reading
+            with open(obj_file, 'r') as obj_file_ren:
+                for line in obj_file_ren:
+                    if line.startswith("usemtl"):
+                        # Extract the material name from the line
+                        words = line.strip().split()
+                        if len(words) >= 2:
+                            material_name = words[1]
+                            # Store the material name in the dictionary
+                            material_names[material_name] = True
+
+            # Open the MTL file for writing
+            with open(mtl_file_path, 'a') as mtl:
+                mtl.write("\n")
+                for material_name in material_names.keys():
+                    mtl.write(f"newmtl {material_name}\n")
+                    mtl.write("Ns 250.000000\n")
+                    mtl.write("Ka 1.000000 1.000000 1.000000\n")
+                    mtl.write("Kd 0.800000 0.800000 0.800000\n")
+                    mtl.write("Ks 0.500000 0.500000 0.500000\n")
+                    mtl.write("Ke 0.000000 0.000000 0.000000\n")
+                    mtl.write("Ni 1.450000\n")
+                    mtl.write("d 1.000000\n")
+                    mtl.write("illum 2\n\n")
 
             print(f"Created .mtl file for {obj_file}: {mtl_file_name} in directory {subdirectory}")
