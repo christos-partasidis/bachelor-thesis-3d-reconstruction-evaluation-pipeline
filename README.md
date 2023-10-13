@@ -50,18 +50,43 @@ This is the path of the current repository
   
 ## 1.0.5 Creating the dataset using vrg_crop_gen
 First a dataset has to be created. Read the documentation of vrg_crop_gen to learn about the process. 
-After modifying the vk_glasses_flags.txt inside vrg_crop_gen and following the documentation, and modifying the configuration_of_scenes/config_general/config0.yaml
-(others yamls inside have been moved in order to run only one creation of one dataset), run the script inside the source directory found in {7} to create the dataset using the following command <br>
+After modifying the vk_glasses_flags.txt found in {1}/vrg_crop_gen in the following way
+"""
+--output_folder_path={1}/vrg_crop_gen/source/output <br>
+--fx=2559
+--fy=2559
+--cx=1536
+--cy=1152
+--far=1000
+--near=0.10000000000000001
+--output_h=2304
+--output_w=3072
+--mesh_obj_file=
+--mesh_texture_file=
+--model_folder={1}/vrg_crop_gen/resources
+--model_list_file={1}/vrg_crop_gen/source/model_def_list.txt
+--model_pose_file={1}/vrg_crop_gen/source/model_poses_list.txt
+--ortho=false
+--pose_file={1}/vrg_crop_gen/source/image_poses.txt
+--resource_folder=/media/secssd/tmp/render_test/a13
+--shader_folder={1}/vrg_crop_gen/source/vulkan_vrglasses_csv/vrglasses_for_robots/shaders
+--step_skip=1
+"""
+Note:
+output_h, output_w (height and width of output images) and fx, fy, cx, cy (focal length, principal point) can be modified as you wish
+
+Follow the documentation of vrg_crop_gen to modify the {1}/vrg_crop_gen/source/configuration_of_scenes/config_general/config0.yaml as you wish to create a specific scene.
+(others yamls inside have been moved in order to run only one creation of one dataset). Run the script inside the source directory found in {7} to create the dataset using the following command <br>
 {7} = "/home/christos/Desktop/Gate/thesis/3d-reconstruction/programs/evaluation_repo/vrg_colmap_reconstruction_evaluation/source"
 - bash create_dataset_general.sh
 
 ## 1.0.6 Reconstruction (manual process)
-This is the manual process of reconstruction. This is the suggested path to follow because they are way more configurations to work with and that will lead to a better reconstruction.
+This is the manual process of reconstruction. This is the suggested path to follow because they are way more configurations to work with and that will lead to a better reconstruction(instead of the automatic).
 If you will follow this section skip section ## 1.0.7 else skip this and go directly to ## 1.0.7 for the automated process
 
 1) Preparing the dataset for reconstruction <br>
-This script moves the images within the target directory found in latest.txt one parent directory up,
-to avoid dublicates when reconstructing. The latest.txt has the directory name of the latest dataset created if you followed ## 1.0.5.
+This script moves the images within the target directory (that has to be in {6}/projects) one parent directory up to avoid dublicates when reconstructing. The name of the target directory is found in {6}/projects/latest.txt 
+The latest.txt has the directory name of the latest dataset created if you followed ## 1.0.5.
 If you want to prepare another directory just change the line inside latest.txt to the directory name you want to prepare.
 This script again just moves all the images inside around_view_rgb within output_dataset_images directly at output_dataset_images.
 Navigate at {6}/source and execute "bash prepare_dataset.sh"
@@ -140,6 +165,11 @@ There is an exception for the Fence objects. Only the Fence2 object has a valid 
 Below you can find the steps to run the script
 1) Take the script "create_mtls.py" and place it at {1}/vrg_crop_gen/resources
 2) Run the python script
+
+## 1.1.1 Creating bounding boxes(aabb) for all the objects(.ply)
+To create bounding boxes for all objects(.ply) in {1}/vrg_crop_gen/resources/model run create_aabb.sh that is found in {6}/source
+1) bash create_aabb.sh
+Note: If you want to create bounding boxes for other .ply files not in vrg_crop_gen check create_aabb.py
 
 
 
