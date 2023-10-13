@@ -50,28 +50,28 @@ This is the path of the current repository
   
 ## 1.0.5 Creating the dataset using vrg_crop_gen
 First a dataset has to be created. Read the documentation of vrg_crop_gen to learn about the process. 
-After modifying the vk_glasses_flags.txt found in {1}/vrg_crop_gen in the following way
-"""
+After modifying the vk_glasses_flags.txt found in {1}/vrg_crop_gen in the following way <br>
+""" <br>
 --output_folder_path={1}/vrg_crop_gen/source/output <br>
---fx=2559
---fy=2559
---cx=1536
---cy=1152
---far=1000
---near=0.10000000000000001
---output_h=2304
---output_w=3072
---mesh_obj_file=
---mesh_texture_file=
---model_folder={1}/vrg_crop_gen/resources
---model_list_file={1}/vrg_crop_gen/source/model_def_list.txt
---model_pose_file={1}/vrg_crop_gen/source/model_poses_list.txt
---ortho=false
---pose_file={1}/vrg_crop_gen/source/image_poses.txt
---resource_folder=/media/secssd/tmp/render_test/a13
---shader_folder={1}/vrg_crop_gen/source/vulkan_vrglasses_csv/vrglasses_for_robots/shaders
---step_skip=1
-"""
+--fx=2559 <br>
+--fy=2559 <br>
+--cx=1536 <br>
+--cy=1152 <br>
+--far=1000 <br>
+--near=0.10000000000000001 <br>
+--output_h=2304 <br>
+--output_w=3072 <br>
+--mesh_obj_file= <br>
+--mesh_texture_file= <br>
+--model_folder={1}/vrg_crop_gen/resources <br>
+--model_list_file={1}/vrg_crop_gen/source/model_def_list.txt <br>
+--model_pose_file={1}/vrg_crop_gen/source/model_poses_list.txt <br>
+--ortho=false <br>
+--pose_file={1}/vrg_crop_gen/source/image_poses.txt <br>
+--resource_folder=/media/secssd/tmp/render_test/a13 <br>
+--shader_folder={1}/vrg_crop_gen/source/vulkan_vrglasses_csv/vrglasses_for_robots/shaders <br>
+--step_skip=1 <br>
+""" <br>
 Note:
 output_h, output_w (height and width of output images) and fx, fy, cx, cy (focal length, principal point) can be modified as you wish
 
@@ -152,7 +152,11 @@ This will create a directory called "evaluation" within {6}/projects/*/ that wil
 
 ## 1.0.9 Running the evaluation of the image poses
 At {6}/source run the evaluation script. Keep in mind that the project that will be evaluated is the project that is in latest.txt
-- bash evaluate.sh
+- bash evaluate.sh <br>
+Check within {6}/projects/*/evaluation the trajectories
+![Screenshot from 2023-10-13 22-33-01](https://github.com/VIS4ROB-lab/vrg_colmap_reconstruction_evaluation/assets/113234371/30616fe6-c5cb-4d7c-93c5-f8cace6b4a05)
+![Screenshot from 2023-10-13 22-31-56](https://github.com/VIS4ROB-lab/vrg_colmap_reconstruction_evaluation/assets/113234371/9b445a62-2936-42ad-8b20-d3a81439e9db)
+
 
 ## 1.0.10 Creating the ground truth point cloud
 At {6}/source run the script. Keep in mind that the project that will be the base for the creation is in latest.txt
