@@ -172,7 +172,7 @@ Below you can find the steps to run the script
 
 ## 1.1.1 Creating bounding boxes(aabb) for all the objects(.ply)
 To create bounding boxes for all objects(.ply) in {1}/vrg_crop_gen/resources/model run create_aabb.sh that is found in {6}/source
-1) bash create_aabb.sh
+1) bash create_aabb.sh <br>
 Note: If you want to create bounding boxes for other .ply files not in vrg_crop_gen check create_aabb.py
 
 
