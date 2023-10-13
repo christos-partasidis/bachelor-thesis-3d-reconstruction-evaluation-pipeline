@@ -1,5 +1,5 @@
 # Description
-This repository seeks to document and automate the evaluation process of image poses generated during reconstruction when using colmap
+This repository seeks to document and automate the evaluation process of the image poses and the scene generated using colmap
 
 ## 1.0.0 General Info
 OS: Ubuntu 22.04 <br>
