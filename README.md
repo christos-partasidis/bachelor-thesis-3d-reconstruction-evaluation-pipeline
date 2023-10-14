@@ -129,7 +129,8 @@ Navigate at {6}/source and execute "bash prepare_dataset.sh"
 
 - File → Export model as text, select the "0" directory and click "Open". This will export them as .txt <br>
 ![image](https://github.com/VIS4ROB-lab/vrg_colmap_reconstruction_evaluation/assets/113234371/9fcfd29e-1043-4d4e-b915-b014e2583c48 "Inside 0 directory")
-- At this point this is enough to create the evaluation of the image poses, dense reconstruction can be skipped (the following steps of this section)
+- At this point this is enough to create the evaluation of the image poses, dense reconstruction can be skipped if you only want to evaluate the estimated poses(the following steps of this section). If you want to <br>
+also evaluate the estimated scenes continue with the dense reconstruction
 - Reconstruction → Dense reconstruction
 - Click "Select" to select a workspace, choose {6}/projects/* directory
 - Click "Undistortion"
