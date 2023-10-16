@@ -306,7 +306,8 @@ o3d.visualization.draw_geometries(all_geometries)
 
 # Visualize the ground truth point cloud and all the aabb(mesh)
 print("Visualizing combined pcd of ground truth and meshes of aabb")
-o3d.visualization.draw_geometries([all_aabb[0], all_aabb[1], all_aabb[2], all_aabb[3], pcd_ground_truth])
+geometries = all_aabb + [pcd_ground_truth]  
+o3d.visualization.draw_geometries(geometries)
 
 #===================================================================================
 #===================================================================================
