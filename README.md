@@ -176,12 +176,35 @@ To create bounding boxes for all objects(.ply) in {1}/vrg_crop_gen/resources/mod
 1) bash create_aabb.sh <br>
 Note: If you want to create bounding boxes for other .ply files not in vrg_crop_gen check create_aabb.py
 
+## 1.1.2 Cropping models with aabb and ground truth poses (v.1.0.0)
+crop_objects.py <br>
+Performs the following tasks: <br>
+1. Read object names (under criteria) used for the creation of the scene -> selected_objects (in model_def_list.txt) <br>
+2. Read poses of selected_objects (in model_poses_list.txt) <br>
+3. Read the ground point cloud <br>
+4. Reads all .ply from vrg_crop_gen/resources/model (or other specified directory) and stores for each selected <br>
+   object their corresponding file path for the raw .ply and the _bounding_box.ply <br>
+5. Combines and visualizes aabbs(both pcd and mesh) of selected_objects with ground truth point cloud <br>
 
+crop_objects.sh <br>
+Runs crop_objects.py based on the current repository
 
+To run the script execute: <br>
+bash crop_objects.sh <br>
 
+TODO: <br>
+1) Align colmap on ground truth <br>
+2) Crop models from ground truth <br>
+3) Crop models from colmap <br>
+4) Compare cropped models <br>
 
+![image](https://github.com/VIS4ROB-lab/vrg_colmap_reconstruction_evaluation/assets/113234371/5e783c23-4306-4dd8-ba08-1c8ed08b5840)
 
+![image](https://github.com/VIS4ROB-lab/vrg_colmap_reconstruction_evaluation/assets/113234371/5f06cdfe-e6d9-4218-91b7-e7a156fb2ad1)
 
+![image](https://github.com/VIS4ROB-lab/vrg_colmap_reconstruction_evaluation/assets/113234371/7c58ba3c-765b-4804-b501-7801b4abfa5a)
+
+![image](https://github.com/VIS4ROB-lab/vrg_colmap_reconstruction_evaluation/assets/113234371/59dd2d6f-0064-4e3d-b44a-2f8700eea8f8)
 
 
 
