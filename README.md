@@ -176,7 +176,7 @@ To create bounding boxes for all objects(.ply) in {1}/vrg_crop_gen/resources/mod
 1) bash create_aabb.sh <br>
 Note: If you want to create bounding boxes for other .ply files not in vrg_crop_gen check create_aabb.py
 
-## 1.1.2 Cropping models with aabb and ground truth poses (v.1.0.1)
+## 1.1.2 Cropping models with aabb and ground truth poses (v.1.0.2)
 crop_objects.py <br>
 Performs the following tasks: <br>
 1. Read object names (under criteria) used for the creation of the scene -> selected_objects (in model_def_list.txt) <br>

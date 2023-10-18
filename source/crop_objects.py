@@ -76,7 +76,7 @@ class object_pose:
         self.z_coords = z_coords
         self.yaw = yaw
         self.path_to_ply = ""
-        self.path_to_aabb_ply = ""
+        
 
     def __str__(self):
         return f"object_name: {self.object_name}\nx_coords: {self.x_coords}\ny_coords: {self.y_coords}\nz_coords: {self.z_coords}\nyaw: {self.yaw}\npath_to_ply: {self.path_to_ply}\n"
@@ -178,15 +178,14 @@ def find_ply_files(directory):
 # Search for .ply files in the file_path_to_model_dir directory and its subdirectories
 ply_files = find_ply_files(file_path_to_model_dir)
 
-# Iterate through the object_poses list and update the path_to_ply and path_to_aabb_ply attributes
+# Iterate through the object_poses list and update the path_to_ply attribute
 for obj in object_poses:
-    object_name = obj.object_name + "_bounding_box.ply"
+    object_name = obj.object_name + ".ply"
     #print(object_name)
     for ply_name, ply_path in ply_files:
         if object_name == ply_name:
-            obj.path_to_ply = ply_path.replace("_bounding_box", "")
-            obj.path_to_aabb_ply = ply_path
-
+            obj.path_to_ply = ply_path
+            
 print("\nPrinting object_poses")
 
 # Print the updated object_poses list
@@ -199,14 +198,7 @@ for obj in object_poses:
         print("Exiting the program due to missing file paths.")
         sys.exit(1)
 
-    # Check if path_to_aabb_ply is empty
-    if not obj.path_to_aabb_ply:
-        print("Path to aabb .ply is empty!")
-        print("Exiting the program due to missing file paths.")
-        sys.exit(1)
-
     print("Path to .ply:", obj.path_to_ply)
-    print("Path to aabb .ply:", obj.path_to_aabb_ply)
     print("\n")
 
 #===================================================================================
@@ -214,7 +206,7 @@ for obj in object_poses:
 #===================================================================================
 
 # Section: 5
-# This section reads the axis aligned bounding box(aabb) for each selected_object, transforms it, and rotates it
+# This section creates the axis aligned bounding box(aabb) for each selected_object, transforms it, and rotates it
 # based on the ground truth pose
 # Then combines all aabbs for the selected_objects with the ground truth point_cloud
 print("\n==============================================================================================")
@@ -224,32 +216,6 @@ print("This section reads the axis aligned bounding box(aabb) for each selected_
      based on the ground truth pose.\
      Then combines all aabbs for the selected_objects with the ground truth point_cloud\
     ")
-#===================================================================================
-#===================================================================================
-#===================================================================================
-# This function is used to perform the left-handed rotation of the mesh
-# angle_degrees must be in radiance
-def rotate_mesh_left_handed(mesh, angle_degrees, axis='z'):
-    rotation_matrix = {
-        'x': np.array([
-            [1, 0, 0],
-            [0, np.cos(-angle_degrees), -np.sin(-angle_degrees)],
-            [0, np.sin(-angle_degrees), np.cos(-angle_degrees)]
-        ]),
-        'y': np.array([
-            [np.cos(-angle_degrees), 0, np.sin(-angle_degrees)],
-            [0, 1, 0],
-            [-np.sin(-angle_degrees), 0, np.cos(-angle_degrees)]
-        ]),
-        'z': np.array([
-            [np.cos(-angle_degrees), -np.sin(-angle_degrees), 0],
-            [np.sin(-angle_degrees), np.cos(-angle_degrees), 0],
-            [0, 0, 1]
-        ])
-    }
-
-    rotation_matrix = rotation_matrix[axis]
-    mesh.rotate(rotation_matrix)
 
 # This function receives the list of object_poses
 # and finds all the aabb for each object
@@ -259,27 +225,64 @@ def combine_all_aabb(object_poses, all_aabb):
     for obj in object_poses:
         # Load the PLY file
         pcd_obj = o3d.io.read_point_cloud(obj.path_to_ply)
-        mesh_aabb = o3d.io.read_triangle_mesh(obj.path_to_aabb_ply)
         
         # Visualization for debugging purposes
-        o3d.visualization.draw_geometries([pcd_obj])
-        o3d.visualization.draw_geometries([mesh_aabb])
-    
-        # Define translation and rotation parameters
-        new_position = [obj.x_coords, obj.y_coords, obj.z_coords]
-        yaw_angle_degrees = obj.yaw
-    
-        # Translate the mesh to the new position (absolute)
-        center = mesh_aabb.get_center()
-        center[2] = 0
-        mesh_aabb.translate(new_position - center)
-    
-        # Rotate the mesh
-        rotate_mesh_left_handed(mesh_aabb, np.radians(yaw_angle_degrees), axis='z')
-    
+        #o3d.visualization.draw_geometries([pcd_obj])
+        aabb = pcd_obj.get_axis_aligned_bounding_box()
+        o3d.visualization.draw_geometries([pcd_obj, aabb])
+
+        points_of_aabb = aabb.get_box_points()
+        translation = np.array([obj.x_coords, obj.y_coords, obj.z_coords])
+
+        # Create transformation matrices
+        translation_matrix = np.identity(4)
+        translation_matrix[:3, 3] = translation
+        # Rotation in degrees around the Z-axis
+        rotation_radians = np.radians(obj.yaw)
+        rotation_matrix = np.array([
+            [np.cos(rotation_radians), -np.sin(rotation_radians), 0, 0],
+            [np.sin(rotation_radians), np.cos(rotation_radians), 0, 0],
+            [0, 0, 1, 0],
+            [0, 0, 0, 1]
+        ])
+
+        # Combine translation and rotation into a single transformation matrix
+        transformation_matrix = np.dot(translation_matrix, rotation_matrix)
+        
+        points_of_aabb_open3d_obj = o3d.geometry.PointCloud()
+        points_of_aabb_open3d_obj.points = o3d.utility.Vector3dVector(points_of_aabb)
+
+        # Apply the transformation to the point cloud
+        points_of_aabb_open3d_obj.transform(transformation_matrix)
+        
+        o3d.visualization.draw_geometries([points_of_aabb_open3d_obj])
+
+        triangles = np.array([
+        [3, 6, 5],
+        [4, 5, 6],
+        [2, 1, 0],
+        [1, 2, 7],
+        [0, 3, 2],
+        [3, 5, 2],
+        [7, 4, 1],
+        [1, 4, 6],
+        [6, 3, 0],
+        [0, 1, 6],
+        [2, 5, 4],
+        [2, 4, 7]
+        ])
+
+        mesh = o3d.geometry.TriangleMesh()
+        mesh.vertices = points_of_aabb_open3d_obj.points
+        mesh.triangles = o3d.utility.Vector3iVector(triangles)
+
+        o3d.visualization.draw_geometries([mesh])
+
+        all_aabb.append(mesh)
+
         # Store the mesh in the list
-        all_aabb.append(mesh_aabb)
-    
+        #all_aabb.append(mesh_aabb)
+
     return all_aabb
 
 # Initialize the list that will contain all the aabb
@@ -312,7 +315,6 @@ o3d.visualization.draw_geometries(geometries)
 #===================================================================================
 #===================================================================================
 #===================================================================================
-
 
 
 
