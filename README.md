@@ -198,16 +198,15 @@ TODO: <br>
 3) Crop models from colmap <br>
 4) Compare cropped models <br>
 
-![image](https://github.com/VIS4ROB-lab/vrg_colmap_reconstruction_evaluation/assets/113234371/5e783c23-4306-4dd8-ba08-1c8ed08b5840)
+![image](https://github.com/VIS4ROB-lab/vrg_colmap_reconstruction_evaluation/assets/113234371/b85d43e5-20a5-43bd-9c28-ece2c8bb4c93)
 
-![image](https://github.com/VIS4ROB-lab/vrg_colmap_reconstruction_evaluation/assets/113234371/5f06cdfe-e6d9-4218-91b7-e7a156fb2ad1)
+![image](https://github.com/VIS4ROB-lab/vrg_colmap_reconstruction_evaluation/assets/113234371/d5ef121c-8041-418a-b102-11028f37cbe9)
 
-![image](https://github.com/VIS4ROB-lab/vrg_colmap_reconstruction_evaluation/assets/113234371/7c58ba3c-765b-4804-b501-7801b4abfa5a)
+![image](https://github.com/VIS4ROB-lab/vrg_colmap_reconstruction_evaluation/assets/113234371/948e5ed9-a1e7-4a8f-b030-ccdeb57e34cc)
 
-![image](https://github.com/VIS4ROB-lab/vrg_colmap_reconstruction_evaluation/assets/113234371/59dd2d6f-0064-4e3d-b44a-2f8700eea8f8)
+![image](https://github.com/VIS4ROB-lab/vrg_colmap_reconstruction_evaluation/assets/113234371/43146c50-05ee-4f68-ab2c-948a7310a8cb)
 
-
-
+![image](https://github.com/VIS4ROB-lab/vrg_colmap_reconstruction_evaluation/assets/113234371/377ba90b-3249-4d6b-a637-c8b5c05c6d63)
 
 
 
