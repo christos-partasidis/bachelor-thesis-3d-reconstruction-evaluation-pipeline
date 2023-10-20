@@ -4,6 +4,7 @@ This repository seeks to document and automate the evaluation process of the ima
 ## 1.0.0 General Info
 OS: Ubuntu 22.04 <br>
 python: 3.10 <br>
+colmap: 3.9 (Commit 2226fa1 on 2023-07-05 with CUDA) <br>
 "{i}" indicates specific directory paths for reference, where you need to install the following three repositories and other resources.
 These paths can be chosen at your discretion, use your own paths instead of {i} and ensure their utilization within the 'configuration_flags.txt' file to configure the settings(following section) <br>
 When running the scripts do not change the contained files within the directories involved because that could cause unwanted problems
@@ -198,10 +199,25 @@ Execution: <br>
 Run the align_models.sh - "bash align_models.sh" <br>
 
 Result: <br>
-After executing the above script, inside the project directory there will be an directory called "align". Within the "align" directory <br>
+After executing the above script, inside the project directory ({6}/projects/*) there will be an directory called "align". Within the "align" directory <br>
 they will exist three .bin files. Using these we will reconstruct the aligned dense scene
 
-## 1.1.3 Cropping models with aabb and ground truth poses (v.1.0.2)
+## 1.1.3 Creating dense scene (manually)
+This process is currently performed manually (in the future check colmap cli)
+Steps:
+1. Navigate at {2}/colmap/build - "cd {2}/colmap/build" 
+2. Open the colmap GUI by - "colmap gui"
+3. "File" -> "Import model", and select the directory {6}/projects/*/align where the * is the project that is in {6}/projects/latest.txt (currently working on)|
+4. You will be asked to "specify a valid database and image path". Click "Yes"
+5. In the "Database" section click "New", name it "database" and click "Save"
+6. In the "Images" section click "Select", navigate one parent directory up at {6}/projects/* and select the "images" directory {6}/projects/*/images, Click "Open"
+7. Click "Save"
+8. "Reconstruction" -> "Dense reconstruction"
+9. At the "Workspace" section, click "Select" and select the {6}/projects/*/align directory, and click "Open"
+10. Click "Undistortion", when done click "Stereo", when done click "Fusion", if asked to visualize the scene click "Yes", click "Poisson"
+11. Close the colmap gui, optionally save the project
+   
+## 1.1.4 Cropping models with aabb and ground truth poses (v.1.0.2)
 crop_objects.py <br>
 Performs the following tasks: <br>
 1. Read object names (under criteria) used for the creation of the scene -> selected_objects (in model_def_list.txt) <br>
