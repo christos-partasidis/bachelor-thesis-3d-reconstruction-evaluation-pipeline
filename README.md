@@ -176,7 +176,32 @@ To create bounding boxes for all objects(.ply) in {1}/vrg_crop_gen/resources/mod
 1) bash create_aabb.sh <br>
 Note: If you want to create bounding boxes for other .ply files not in vrg_crop_gen check create_aabb.py
 
-## 1.1.2 Cropping models with aabb and ground truth poses (v.1.0.2)
+## 1.1.2 Aligning models (v.1.0.0)
+Using colmap model_aligner we are alingning the ground_truth and the estimated colmap scene
+
+align_models.py <br>
+Arguments: <br>
+1. <path_to_project>: The path to the project <br.
+Performs the following tasks: <br>
+1. Creates "align" directory within the project directory <br>
+2. Read poses of images from "image_poses.txt" from within the directory "output_dataset_txt" <br>
+3. Modifies read poses and stores them in "ground_truth_geo_registration.txt" within "aligning" directory <br>
+
+align_models.sh <br>
+Arguments: None <br>
+Peforms the following tasks: <br>
+1. Read latest.txt <br>
+2. Run align_models.py <br>
+3. Run colmap model_aligner <br>
+
+Execution: <br>
+Run the align_models.sh - "bash align_models.sh" <br>
+
+Result: <br>
+After executing the above script, inside the project directory there will be an directory called "align". Within the "align" directory <br>
+they will exist three .bin files. Using these we will reconstruct the aligned dense scene
+
+## 1.1.3 Cropping models with aabb and ground truth poses (v.1.0.2)
 crop_objects.py <br>
 Performs the following tasks: <br>
 1. Read object names (under criteria) used for the creation of the scene -> selected_objects (in model_def_list.txt) <br>
@@ -207,6 +232,33 @@ TODO: <br>
 ![image](https://github.com/VIS4ROB-lab/vrg_colmap_reconstruction_evaluation/assets/113234371/43146c50-05ee-4f68-ab2c-948a7310a8cb)
 
 ![image](https://github.com/VIS4ROB-lab/vrg_colmap_reconstruction_evaluation/assets/113234371/377ba90b-3249-4d6b-a637-c8b5c05c6d63)
+
+crop_objects.py <br>
+Performs the following tasks: <br>
+1. Read object names (under criteria) used for the creation of the scene -> selected_objects (in model_def_list.txt) <br>
+2. Read poses of selected_objects (in model_poses_list.txt) <br>
+3. Read the ground point cloud <br>
+4. Reads all .ply from vrg_crop_gen/resources/model (or other specified directory) and stores for each selected <br>
+   object their corresponding file path for the raw .ply and the _bounding_box.ply <br>
+5. Combines and visualizes aabbs(both pcd and mesh) of selected_objects with ground truth point cloud <br>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
