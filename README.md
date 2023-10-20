@@ -234,29 +234,46 @@ To run the script execute: <br>
 bash crop_objects.sh <br>
 
 TODO: <br>
-1) Align colmap on ground truth <br>
+1) Align colmap on ground truth (using ground truth image poses and colmap model aligner) - Done <br> 
 2) Crop models from ground truth <br>
 3) Crop models from colmap <br>
 4) Compare cropped models <br>
 
-![image](https://github.com/VIS4ROB-lab/vrg_colmap_reconstruction_evaluation/assets/113234371/b85d43e5-20a5-43bd-9c28-ece2c8bb4c93)
 
-![image](https://github.com/VIS4ROB-lab/vrg_colmap_reconstruction_evaluation/assets/113234371/d5ef121c-8041-418a-b102-11028f37cbe9)
+### Ground truth
+#### Ground truth pcd (side view)
+![Screenshot from 2023-10-21 01-40-20](https://github.com/VIS4ROB-lab/vrg_colmap_reconstruction_evaluation/assets/113234371/d79237a7-aa1e-4100-929c-d09c5adca094)
 
-![image](https://github.com/VIS4ROB-lab/vrg_colmap_reconstruction_evaluation/assets/113234371/948e5ed9-a1e7-4a8f-b030-ccdeb57e34cc)
+#### Combined pcd of ground truth and aabb (top view)
+![Screenshot from 2023-10-21 01-42-01](https://github.com/VIS4ROB-lab/vrg_colmap_reconstruction_evaluation/assets/113234371/e24da6b5-afc2-489c-b853-af0a17d1dc62)
 
-![image](https://github.com/VIS4ROB-lab/vrg_colmap_reconstruction_evaluation/assets/113234371/43146c50-05ee-4f68-ab2c-948a7310a8cb)
+#### Combined pcd of ground truth and aabb (side view)
+![Screenshot from 2023-10-21 01-43-38](https://github.com/VIS4ROB-lab/vrg_colmap_reconstruction_evaluation/assets/113234371/b72f6bc9-b860-4680-8d0f-337b2c87d942)
 
-![image](https://github.com/VIS4ROB-lab/vrg_colmap_reconstruction_evaluation/assets/113234371/377ba90b-3249-4d6b-a637-c8b5c05c6d63)
+#### Combined pcd of ground truth and meshes of aabb (top view)
+![Screenshot from 2023-10-21 01-44-44](https://github.com/VIS4ROB-lab/vrg_colmap_reconstruction_evaluation/assets/113234371/58b6f895-26c5-4790-8980-eebe0e57cd6b)
 
-crop_objects.py <br>
-Performs the following tasks: <br>
-1. Read object names (under criteria) used for the creation of the scene -> selected_objects (in model_def_list.txt) <br>
-2. Read poses of selected_objects (in model_poses_list.txt) <br>
-3. Read the ground point cloud <br>
-4. Reads all .ply from vrg_crop_gen/resources/model (or other specified directory) and stores for each selected <br>
-   object their corresponding file path for the raw .ply and the _bounding_box.ply <br>
-5. Combines and visualizes aabbs(both pcd and mesh) of selected_objects with ground truth point cloud <br>
+#### Combined pcd of ground truth and meshes of aabb (side view)
+![Screenshot from 2023-10-21 02-07-43](https://github.com/VIS4ROB-lab/vrg_colmap_reconstruction_evaluation/assets/113234371/12e078d5-7a56-4abc-84d7-606a17a33d3a)
+
+
+
+
+### Colmap aligned
+#### Colmap aligned pcd (side view)
+![Screenshot from 2023-10-21 01-31-02](https://github.com/VIS4ROB-lab/vrg_colmap_reconstruction_evaluation/assets/113234371/8d49f148-ae29-4043-be99-6d8f87b6f2dc)
+
+#### Combined pcd of colmap aligned and aabb (top view)
+![Screenshot from 2023-10-21 01-24-33](https://github.com/VIS4ROB-lab/vrg_colmap_reconstruction_evaluation/assets/113234371/e4be5471-6c38-4ef3-93ed-95bda008bbed)
+
+#### Combined pcd of colmap aligned and aabb (side view)
+![Screenshot from 2023-10-21 01-26-06](https://github.com/VIS4ROB-lab/vrg_colmap_reconstruction_evaluation/assets/113234371/348d05ba-3cf7-4591-92ac-588dac8e3982)
+
+#### Combined pcd of colmap aligned and meshes of aabb (top view)
+![Screenshot from 2023-10-21 01-27-14](https://github.com/VIS4ROB-lab/vrg_colmap_reconstruction_evaluation/assets/113234371/b2868371-1bd8-476e-ad0e-22d2baed0d71)
+
+#### Combined pcd of colmap aligned and meshes of aabb (side view)
+![Screenshot from 2023-10-21 01-28-30](https://github.com/VIS4ROB-lab/vrg_colmap_reconstruction_evaluation/assets/113234371/ad61a4d5-8bae-496a-ad3d-678622fc9708)
 
 
 
