@@ -178,7 +178,7 @@ To create bounding boxes for all objects(.ply) in {1}/vrg_crop_gen/resources/mod
 Note: If you want to create bounding boxes for other .ply files not in vrg_crop_gen check create_aabb.py
 
 ## 1.1.2 Aligning models (v.1.0.0)
-Using colmap model_aligner we are alingning the ground_truth and the estimated colmap scene
+Using colmap model_aligner we are aligning the ground_truth and the estimated colmap scene
 
 align_models.py <br>
 Arguments: <br>
@@ -223,9 +223,11 @@ Performs the following tasks: <br>
 1. Read object names (under criteria) used for the creation of the scene -> selected_objects (in model_def_list.txt) <br>
 2. Read poses of selected_objects (in model_poses_list.txt) <br>
 3. Read the ground point cloud <br>
-4. Reads all .ply from vrg_crop_gen/resources/model (or other specified directory) and stores for each selected <br>
+4. Read and visualize the colmap (aligned) point cloud <br>
+5. Reads all .ply from vrg_crop_gen/resources/model (or other specified directory) and stores for each selected <br>
    object their corresponding file path for the raw .ply and the _bounding_box.ply <br>
-5. Combines and visualizes aabbs(both pcd and mesh) of selected_objects with ground truth point cloud <br>
+6. Combines and visualizes aabbs(both pcd and mesh) of selected_objects with ground truth and colmap (aligned) point clouds <br>
+7. Combines and visualizes pcd of ground truth and colmap (aligned)
 
 crop_objects.sh <br>
 Runs crop_objects.py based on the current repository
@@ -275,11 +277,15 @@ TODO: <br>
 #### Combined pcd of colmap aligned and meshes of aabb (side view)
 ![Screenshot from 2023-10-21 01-28-30](https://github.com/VIS4ROB-lab/vrg_colmap_reconstruction_evaluation/assets/113234371/ad61a4d5-8bae-496a-ad3d-678622fc9708)
 
+### Ground truth and colmap aligned
+#### Ground truth and colmap aligned (top view)
+![Screenshot from 2023-10-21 03-08-13](https://github.com/VIS4ROB-lab/vrg_colmap_reconstruction_evaluation/assets/113234371/e9d62a50-e4c8-4bdd-9efd-c0f957d96f3e)
 
+#### Ground truth and colmap aligned (side view)
+![Screenshot from 2023-10-21 03-09-04](https://github.com/VIS4ROB-lab/vrg_colmap_reconstruction_evaluation/assets/113234371/941becd8-567a-4dca-abb4-79ca938b9262)
 
-
-
-
+#### Ground truth and colmap aligned (zoomed at trees)
+![Screenshot from 2023-10-21 03-10-47](https://github.com/VIS4ROB-lab/vrg_colmap_reconstruction_evaluation/assets/113234371/74b3ef94-e2b5-4a76-8636-9f332fff19b5)
 
 
 
