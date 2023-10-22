@@ -222,25 +222,21 @@ crop_objects.py <br>
 Performs the following tasks: <br>
 1. Read object names (under criteria) used for the creation of the scene -> selected_objects (in model_def_list.txt) <br>
 2. Read poses of selected_objects (in model_poses_list.txt) <br>
-3. Read the ground point cloud <br>
+3. Read and visualize the ground point cloud <br>
 4. Read and visualize the colmap (aligned) point cloud <br>
 5. Reads all .ply from vrg_crop_gen/resources/model (or other specified directory) and stores for each selected <br>
    object their corresponding file path for the raw .ply and the _bounding_box.ply <br>
 6. Combines and visualizes aabbs(both pcd and mesh) of selected_objects with ground truth and colmap (aligned) point clouds <br>
 7. Combines and visualizes pcd of ground truth and colmap (aligned)
+8. Crop objects from ground truth pcd and store them
+9. Crop objects from colmap (aligned) pcd and store them
+10. Visualize and store combined ground truth and colmap (aligned) cropped objects
 
 crop_objects.sh <br>
 Runs crop_objects.py based on the current repository
 
 To run the script execute: <br>
 bash crop_objects.sh <br>
-
-TODO: <br>
-1) Align colmap on ground truth (using ground truth image poses and colmap model aligner) - Done <br> 
-2) Crop models from ground truth <br>
-3) Crop models from colmap <br>
-4) Compare cropped models <br>
-
 
 ### Ground truth
 #### Ground truth pcd (side view)
@@ -277,6 +273,9 @@ TODO: <br>
 #### Combined pcd of colmap aligned and meshes of aabb (side view)
 ![Screenshot from 2023-10-21 01-28-30](https://github.com/VIS4ROB-lab/vrg_colmap_reconstruction_evaluation/assets/113234371/ad61a4d5-8bae-496a-ad3d-678622fc9708)
 
+
+
+
 ### Ground truth and colmap aligned
 #### Ground truth and colmap aligned (top view)
 ![Screenshot from 2023-10-21 03-08-13](https://github.com/VIS4ROB-lab/vrg_colmap_reconstruction_evaluation/assets/113234371/e9d62a50-e4c8-4bdd-9efd-c0f957d96f3e)
@@ -287,19 +286,59 @@ TODO: <br>
 #### Ground truth and colmap aligned (zoomed at trees)
 ![Screenshot from 2023-10-21 03-10-47](https://github.com/VIS4ROB-lab/vrg_colmap_reconstruction_evaluation/assets/113234371/74b3ef94-e2b5-4a76-8636-9f332fff19b5)
 
+### Ground truth cropped 
+#### Ground truth cropped object
+![gt_cropped_object](https://github.com/VIS4ROB-lab/vrg_colmap_reconstruction_evaluation/assets/113234371/7f736081-af0e-4880-a043-ea4dd31607fd)
+
+#### Ground truth cropped object with bounding box
+![gt_cropped_object_w_bb](https://github.com/VIS4ROB-lab/vrg_colmap_reconstruction_evaluation/assets/113234371/9b5880e9-5a82-45ad-98ce-35186c3d7c71)
+
+#### Ground truth combined cropped objects (top view)
+![all_gt_cropped_object_top](https://github.com/VIS4ROB-lab/vrg_colmap_reconstruction_evaluation/assets/113234371/ef4c580c-9cc4-48e3-8fc9-e8ea5291ad4b)
+
+#### Ground truth combined cropped objects (side view)
+![all_gt_cropped_object_side](https://github.com/VIS4ROB-lab/vrg_colmap_reconstruction_evaluation/assets/113234371/ba3d40e4-b2ff-4785-8574-c850d61e3f3a)
+
+#### Ground truth combined cropped objects with bounding boxes (top view)
+![all_gt_cropped_object_top_w_bb](https://github.com/VIS4ROB-lab/vrg_colmap_reconstruction_evaluation/assets/113234371/ab5e81d5-cd7f-4702-beae-d12b924d92f9)
+
+#### Ground truth combined cropped objects with bounding boxes (side view)
+![all_gt_cropped_object_top_w_bb_s](https://github.com/VIS4ROB-lab/vrg_colmap_reconstruction_evaluation/assets/113234371/705646f8-af72-48d8-9d65-1386c1ec0ebd)
 
 
 
 
 
+### Colmap aligned cropped 
+#### Colmap aligned cropped object
+![colmap_cropped_object](https://github.com/VIS4ROB-lab/vrg_colmap_reconstruction_evaluation/assets/113234371/17fde309-8af4-4b57-830b-620d6ac059e9)
+
+#### Colmap aligned cropped object with bounding box
+![colmap_cropped_object_w_bb](https://github.com/VIS4ROB-lab/vrg_colmap_reconstruction_evaluation/assets/113234371/f3fb5e90-ea1a-420f-bf51-10dd22ec6c24)
+
+#### Colmap aligned combined cropped objects (top view)
+![all_colmap_cropped_object_top](https://github.com/VIS4ROB-lab/vrg_colmap_reconstruction_evaluation/assets/113234371/bff86783-c1af-4534-bcea-3fa8472f39a8)
+
+#### Colmap aligned combined cropped objects (side view)
+![all_colmap_cropped_object_side](https://github.com/VIS4ROB-lab/vrg_colmap_reconstruction_evaluation/assets/113234371/4ab658dc-e15a-46bb-9590-e425f4e1da0b)
+
+#### Colmap aligned combined cropped objects with bounding boxes (top view)
+![all_colmap_cropped_object_top_w_bb](https://github.com/VIS4ROB-lab/vrg_colmap_reconstruction_evaluation/assets/113234371/3b1739bc-7a25-403d-8d0d-4a70cd07c755)
+
+#### Colmap aligned combined cropped objects with bounding boxes (side view)
+![all_colmap_cropped_object_top_w_bb_s](https://github.com/VIS4ROB-lab/vrg_colmap_reconstruction_evaluation/assets/113234371/0ec705e9-787f-4080-9440-2d2496ba6ad9)
 
 
 
 
+### Combined cropped 
+#### Combined cropped objects
+#### Blue: Ground truth
+#### Green: Colmap
 
+![combined_1](https://github.com/VIS4ROB-lab/vrg_colmap_reconstruction_evaluation/assets/113234371/eb3bc082-c831-4204-a2a9-dcc827731602)
 
-
-
+![combined_2](https://github.com/VIS4ROB-lab/vrg_colmap_reconstruction_evaluation/assets/113234371/3df5ae5e-7057-4afa-9a61-1de4db9a8a06)
 
 
 
