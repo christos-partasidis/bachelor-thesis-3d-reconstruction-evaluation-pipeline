@@ -92,8 +92,11 @@ fi
 #==================================================================
 
 latest_data="../projects/$latest_data"
-echo "THIS IS $latest_data"
+echo "latest_data: $latest_data"
+
 file_path_to_model_dir="${var_values[0]}/resources/model"
+echo "file_path_to_model_dir: $file_path_to_model_dir"
+exit 0
 
 python3.10 crop_objects.py $latest_data $file_path_to_model_dir
 

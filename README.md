@@ -217,7 +217,7 @@ Steps:
 10. Click "Undistortion", when done click "Stereo", when done click "Fusion", if asked to visualize the scene click "Yes", click "Poisson"
 11. Close the colmap gui, optionally save the project
    
-## 1.1.4 Cropping models with aabb and ground truth poses (v.1.0.2)
+## 1.1.4 Cropping models with aabb and ground truth poses (v.1.0.3)
 crop_objects.py <br>
 Performs the following tasks: <br>
 1. Read object names (under criteria) used for the creation of the scene -> selected_objects (in model_def_list.txt) <br>
