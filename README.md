@@ -340,7 +340,9 @@ bash crop_objects.sh <br>
 
 ![combined_2](https://github.com/VIS4ROB-lab/vrg_colmap_reconstruction_evaluation/assets/113234371/3df5ae5e-7057-4afa-9a61-1de4db9a8a06)
 
-
+## 1.1.5 Comparing voxel grids (groundtruth, colmap)
+compare_voxel_grids.py
+...
 
 
 
