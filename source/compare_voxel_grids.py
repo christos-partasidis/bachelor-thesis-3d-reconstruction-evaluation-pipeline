@@ -7,7 +7,8 @@
 # 4. Convert matched voxel coords to point cloud and voxel grid
 # 5. Print comparison metrics for matching
 ## TEST_2: VOXEL DISTANCE
-## 6. Calculate nearest voxel of all ground truth voxels
+# 6. Calculate nearest voxel for all ground truth voxels
+# 7. Print metrics for TEST_2: VOXEL DISTANCE
 
 # Configuration:
 
@@ -18,9 +19,15 @@
 # corresponding voxel grid
 voxel_size = 0.3
 
-# random_colors_TF color: True the final voxel grid will have random colors,
+# random_colors_TF color: 
+# True the final voxel grid will have random colors,
 # False the final voxel grid will have its original colors
 random_colors_TF = False
+
+# color_map_value:
+# viridis: Blue - Low, Yellow - High
+# RdYlGn_r: Green - Low, Red - High
+color_map_value = "viridis"
 
 # Debug Mode: True to run in debug mode, False to run in normal mode
 debug = True # For visualizations
@@ -37,6 +44,7 @@ from scipy.spatial import distance
 import matplotlib.pyplot as plt
 from matplotlib.colors import Normalize
 from matplotlib.cm import ScalarMappable
+import os
 #===================================================================================
 #===================================================================================
 #===================================================================================
@@ -60,8 +68,11 @@ voxel_grid_colmap = o3d.io.read_voxel_grid("/home/christos/Desktop/Gate/thesis/3
 
 # Visualize voxel grids
 if debug:
+    print("Visualizing ground truth voxel grid...")
     o3d.visualization.draw_geometries([voxel_grid_gt])
+    print("Visualizing colmap voxel grid...")
     o3d.visualization.draw_geometries([voxel_grid_colmap])
+    print("Visualizing combined ground truth (blue) and colmap (green) voxel grids...")
     o3d.visualization.draw_geometries([voxel_grid_gt, voxel_grid_colmap])
 
 print("Ground truth voxel grid: ", voxel_grid_gt)
@@ -177,11 +188,12 @@ print("=========================================================================
 print("==============================================================================================")
 print("Section: 4 | compare_voxel_grids.py")
 print("Convert matched voxel coords to point cloud and voxel grid\n")
+
 ## Get centers
 # Initialize center array to store centers for each voxel
 centers = []
 
-print("Getting centers...")
+print("Getting centers of found voxels...")
 
 # Get centers
 for i, coord in enumerate(coords_gt_found):
@@ -190,8 +202,7 @@ for i, coord in enumerate(coords_gt_found):
     # Append center
     centers.append(vox_center)
 
-print("Number of centers: ", len(centers))
-print("\nvoxel_size: ", voxel_size)
+print("Number of found centers: ", len(centers))
 
 if debug2:
     print("coords_gt_found[0]: ", coords_gt_found[0])
@@ -222,6 +233,7 @@ centers_np_8 = []
 for center in centers_np:
     for i in range(8):
         centers_np_8.append(center)
+
 if debug2:
     print("Length of centers_np_8: ", len(centers_np_8))
 
@@ -319,12 +331,13 @@ voxel_grid = o3d.geometry.VoxelGrid.create_from_point_cloud(point_cloud, voxel_s
 
 if debug:
     o3d.visualization.draw_geometries([voxel_grid])
+
 #===================================================================================
 #===================================================================================
 #===================================================================================
 
 # Section: 5
-# Print comparison metrics
+# Print metrics for TEST_1: VOXEL MATCHING
 #===================================================================================
 #===================================================================================
 #===================================================================================
@@ -332,7 +345,7 @@ print("\n")
 print("==============================================================================================")
 print("==============================================================================================")
 print("Section: 5 | compare_voxel_grids.py")
-print("Print comparison metrics\n")
+print("Print metrics for TEST_1: VOXEL MATCHING\n")
 
 print("#Voxels at ground truth: ", len(coords_gt))
 print("#Voxels at estimate: ", len(voxels_colmap))
@@ -348,6 +361,12 @@ print("%Voxels matched: {:.2f}%".format((len(coords_gt_found)/len(coords_gt))*10
 #===================================================================================
 #===================================================================================
 #===================================================================================
+print("\n")
+print("==============================================================================================")
+print("==============================================================================================")
+print("Section: 6 | compare_voxel_grids.py")
+print("Calculate nearest voxel and create a color map of all ground truth voxels\n")
+
 if debug2:
     print(len(coords_gt))
     print(coords_gt)
@@ -356,9 +375,11 @@ if debug2:
 
 ## Get centers gt
 # Initialize centers array to store centers for each voxel of the ground truth
+print("Getting ground truth centers....")
+
 centers_gt = []
 
-# Get centers
+# Get centers of ground truth
 for i, coord in enumerate(coords_gt):
     # Get voxel center
     vox_center = voxel_grid_gt.get_voxel_center_coordinate(coord)
@@ -374,9 +395,13 @@ if debug2:
 
 # Convert list to numpy array
 centers_gt = np.asarray(centers_gt)
-print("type(centers_gt): ", type(centers_gt))
+
+if debug2:
+    print("type(centers_gt): ", type(centers_gt))
 
 ## Get centers colmap
+print("Getting colmap centers...")
+
 if debug2:
     print(len(voxels_colmap))
     print(len(coords_colmap))
@@ -384,8 +409,9 @@ if debug2:
     print(type(coords_colmap))
     print(type(coords_colmap[0]))
 
-# Initialize center array to store centers for each voxel of the ground truth
+# Initialize center array to store centers for each voxel of the colmap
 centers_colmap = []
+
 # Get centers
 for i, coord in enumerate(coords_colmap):
     # Get voxel center
@@ -402,14 +428,24 @@ if debug2:
 
 # Convert list to numpy array
 centers_colmap = np.asarray(centers_colmap)
-print("type(centers_colmap): ", type(centers_colmap))
+
+if debug2:
+    print("type(centers_colmap): ", type(centers_colmap))
 
 ## For each center in the ground truth find the closest (distance,index) in colmap
-# distance module needed
-# Initialize empty arrays to store distances and indices
+print("Finding the closest distance...")
+
+# Get number of centers in ground truth
 num_gt_centers = len(centers_gt)
+
+# Get number of centers in colmap
 num_colmap_centers = len(centers_colmap)
+
+# Initialize distances array to store minimum distance for each voxel in ground truth
 distances = np.empty(num_gt_centers)
+
+# Initialize distance_index array to store for each voxel in ground truth
+# the index of the voxel in colmap that corresponds to the minimum distance  
 distance_index = np.empty(num_gt_centers, dtype=int)
 
 # Loop through each center in centers_gt
@@ -429,8 +465,152 @@ for i in range(num_gt_centers):
 # Find minimum distance
 minimum_distance = np.min(distances)
 
-# Find maxmimum distance
+# Find maximimum distance
 maximum_distance = np.max(distances)
+
+## Convert distances into colors
+print("Converting distances into colors...")
+# matplotlib modules needed
+
+# Define the colormap 
+cmap = plt.get_cmap(color_map_value)  
+
+# Normalize distances to [0, 1] to map them to the colormap
+norm = plt.Normalize(minimum_distance, maximum_distance)
+
+# Create a list of RGB values for each distance
+colors = [cmap(norm(distance)) for distance in distances]
+
+# Convert the list of RGB values to a numpy array
+color_array = np.array(colors)
+
+# Print the color array
+if debug2:
+    print(color_array)
+
+print("Displaying scatterplot color points")
+# Scatterplot
+plt.scatter(distances, np.arange(len(distances)), c=color_array)
+plt.xlabel("Distances")
+plt.ylabel("Index")
+plt.show()
+
+print("Displaying color points")
+# Plot the colors for visualization
+fig, ax = plt.subplots(figsize=(8, 2))
+ax.imshow([colors], aspect='auto')
+ax.set_xticks([])
+ax.set_yticks([])
+ax.set_title("Distance Color Map")
+plt.show()
+
+## Convert voxel grid gt -> to points -> add color -> convert back to voxel grid
+## Convert centers to point cloud
+print("Converting ground truth centers to point cloud")
+
+# Replicate centers 8 times
+centers_np_gt_8 = []
+for center in centers_gt:
+    for i in range(8):
+        centers_np_gt_8.append(center)
+
+if debug2:
+    print("Length of centers_np_gt_8: ", len(centers_np_gt_8))
+
+# Convert list to np array
+centers_np_8 = np.asarray(centers_np_8)
+
+# Replicate corner offsets len(centers_gt) times
+corner_offsets_gt_8 = []
+
+for i in range(len((centers_gt))):
+    for point_offset in corner_offsets:
+        corner_offsets_gt_8.append(point_offset)
+
+if debug2:
+    print("len(centers_gt): ", len(centers_gt))        
+    print("len(corner_offsets_gt_8): ", len(corner_offsets_gt_8))
+
+# Transform list to np array
+corner_offsets_gt_8 = np.asarray(corner_offsets_gt_8)
+
+# Calculate the corner points
+corner_points_gt = centers_np_gt_8 + corner_offsets_gt_8
+
+if debug2:  
+    print("len(corner_points_gt): ", len(corner_points_gt))
+
+# Call function to remove duplicate points
+unique_points_gt, num_duplicates, unique_indices_gt = remove_duplicate_points_and_count(corner_points_gt)
+
+if debug2:
+    print("Number of duplicates: ", num_duplicates)
+
+# Initialize a point cloud
+point_cloud_gt = o3d.geometry.PointCloud()
+
+# Set the points to the unique points
+point_cloud_gt.points = o3d.utility.Vector3dVector(unique_points_gt)
+
+if debug2:
+    print(len(unique_points_gt))
+
+# Initialize list to store replicated values 
+color_array_8 = []
+
+# Iterate through each value(color)
+for index, value in enumerate(color_array):
+    # Repeat 8 times
+    for i in range(8):
+        color_array_8.append(value)
+
+if debug2:
+    print("len(color_array_8: ", len(color_array_8))
+
+# Convert list to numpy array
+color_array_8 = np.asarray(color_array_8)
+
+# Create a mask to select only the first occurrence of each unique point
+mask = np.full(len(color_array_8), False)
+mask[unique_indices_gt] = True
+
+# Remove duplicates
+color_array_8 = color_array_8[mask]
+
+# Extract RGB from RGBA
+color_array_8 = color_array_8[:, :3]
+
+# Set colors to point cloud
+point_cloud_gt.colors = o3d.utility.Vector3dVector(color_array_8) 
+
+if debug2:
+    print(len(color_array_8))
+    print(type(color_array_8))
+    print(type(color_array_8[0]))
+    print(color_array_8[0])
+
+if debug:
+    o3d.visualization.draw_geometries([point_cloud_gt])
+
+print("Creating ground truth voxel grid from points...")
+# Create a VoxelGrid from the PointCloud
+voxel_grid_gt = o3d.geometry.VoxelGrid.create_from_point_cloud(point_cloud_gt, voxel_size)
+
+o3d.visualization.draw_geometries([voxel_grid_gt])
+#===================================================================================
+#===================================================================================
+#===================================================================================
+
+# Section: 7
+# Print metrics for TEST_2: VOXEL DISTANCE
+#===================================================================================
+#===================================================================================
+#===================================================================================
+print("\n")
+print("==============================================================================================")
+print("==============================================================================================")
+print("Section: 7 | compare_voxel_grids.py")
+print("Print metrics for TEST_2: VOXEL DISTANCE\n")
 
 # Print minimum and maximum distance
 print("Minimum Distance: {:.2f}".format(minimum_distance))
@@ -448,181 +628,6 @@ print("Distances Root Mean Square Error (RMSE): {:.2f}".format(rmse))
 mse = np.mean(distances**2)
 print("Distances Mean Squared Error (MSE): {:.2f}".format(mse))
 
-## Convert distances into colors
-# matplotlib modules needed
-
-# # Method 1 (commented out)
-# # Define the colormap and normalization range
-# cmap = plt.get_cmap('viridis')  # You can choose other colormaps as well
-# norm = Normalize(vmin=min(distances), vmax=max(distances))
-
-# # Create a ScalarMappable to map distances to colors
-# sm = ScalarMappable(cmap=cmap, norm=norm)
-
-# # Create an empty array to store the RGB colors
-# colors = np.zeros((len(distances), 3))
-
-# # Map distances to colors
-# for i, distance in enumerate(distances):
-#     rgba_color = sm.to_rgba(distance)  # Get RGBA color
-#     colors[i] = rgba_color[:3]  # Extract RGB part
-
-# Method 2
-# Define the colormap (Reversed: Red-Yellow-Green)
-cmap = plt.get_cmap("RdYlGn_r")  # Reversed Red-Yellow-Green colormap
-
-# Normalize distances to [0, 1] to map them to the colormap
-norm = plt.Normalize(distances.min(), distances.max())
-
-# Create a list of RGB values for each distance
-colors = [cmap(norm(distance)) for distance in distances]
-
-# Convert the list of RGB values to a numpy array
-color_array = np.array(colors)
-
-# Print the color array
-print(color_array)
-
-# Example: Visualize the colors
-plt.scatter(distances, np.arange(len(distances)), c=color_array)
-plt.xlabel("Distances")
-plt.ylabel("Index")
-plt.show()
-
-# Plot the colors for visualization
-fig, ax = plt.subplots(figsize=(8, 2))
-ax.imshow([colors], aspect='auto')
-ax.set_xticks([])
-ax.set_yticks([])
-ax.set_title("Distance Color Map")
-plt.show()
-
-## *** MUST CHECK METHOD 1 TO VERIFY VALIDITY OF METHOD 2
-
-### Convert voxel grid gt -> to points -> add color -> convert back to voxel grid
-## Get centers gt
-# Initialize center array to store centers for each voxel
-centers_gt = []
-
-print("Getting centers of ground truth...", end='')
-
-# Get centers
-for i, coord in enumerate(coords_gt):
-    # Get voxel center
-    vox_center = voxel_grid_gt.get_voxel_center_coordinate(coord)
-    # Append center
-    centers_gt.append(vox_center)
-    
-print("Success!")
-
-print("Number of ground truth centers: ", len(centers_gt))
-print("\nvoxel_size: ", voxel_size)
-
-# Convert list to numpy array
-centers_gt = np.asarray(centers_gt)
-
-## Convert centers to point cloud
-# Get half voxel
-voxel_half = voxel_size / 2
-
-# Set corner offsets
-corner_offsets = np.array([
-    [-voxel_half, -voxel_half, -voxel_half],
-    [voxel_half, -voxel_half, -voxel_half],
-    [-voxel_half, voxel_half, -voxel_half],
-    [voxel_half, voxel_half, -voxel_half],
-    [-voxel_half, -voxel_half, voxel_half],
-    [voxel_half, -voxel_half, voxel_half],
-    [-voxel_half, voxel_half, voxel_half],
-    [voxel_half, voxel_half, voxel_half]
-])
-
-# Replicate centers 8 times
-centers_np_gt_8 = []
-for center in centers_gt:
-    for i in range(8):
-        centers_np_gt_8.append(center)
-print("Length of centers_np_gt_8: ", len(centers_np_gt_8))
-
-# Convert list to np array
-centers_np_8 = np.asarray(centers_np_8)
-
-# Replicate corner offsets len(centers_gt) times
-corner_offsets_gt_8 = []
-
-for i in range(len((centers_gt))):
-    for point_offset in corner_offsets:
-        corner_offsets_gt_8.append(point_offset)
-print("len(centers_gt): ", len(centers_gt))        
-print("len(corner_offsets_gt_8): ", len(corner_offsets_gt_8))
-
-# Transform list to np array    
-corner_offsets_gt_8 = np.asarray(corner_offsets_gt_8)
-
-# Calculate the corner points
-corner_points_gt = centers_np_gt_8 + corner_offsets_gt_8
-
-print("len(corner_points_gt): ", len(corner_points_gt))
-
-unique_points_gt, num_duplicates, unique_indices_gt = remove_duplicate_points_and_count(corner_points_gt)
-
-print("Number of duplicates: ", num_duplicates)
-
-# Initialize a point cloud
-point_cloud_gt = o3d.geometry.PointCloud()
-
-# Set the points to the unique points
-point_cloud_gt.points = o3d.utility.Vector3dVector(unique_points_gt)
-
-print(len(unique_points_gt))
-
-# Sets random colors at the point cloud and voxel grid
-if random_colors_TF:
-    # Generate random colors for each point in the point cloud 
-    # Get number of points
-    num_points = len(point_cloud_gt.points)
-    # Generate random color for each point
-    colors = np.random.randint(0, 255, size=(num_points, 3), dtype=np.uint8)
-    # Set the colors to the point cloud
-    point_cloud_gt.colors = o3d.utility.Vector3dVector(colors / 255.0)  # Normalize the colors to the range [0, 1]
-# Sets colors at the point cloud and voxel grid from the ground truth
-else:
-    # Initialize list to store replicated values 
-    color_array_8 = []
-
-    # Iterate through each value(color)
-    for index, value in enumerate(color_array):
-        # Repeat 8 times
-        for i in range(8):
-            color_array_8.append(value)
-        
-    print("len(color_array_8: ", len(color_array_8))
-
-    # Convert list to numpy array
-    color_array_8 = np.asarray(color_array_8)
-    
-    # Create a mask to select only the first occurrence of each unique point
-    mask = np.full(len(color_array_8), False)
-    mask[unique_indices_gt] = True
-    
-    # Remove duplicates
-    color_array_8 = color_array_8[mask]
-    
-    # Extract RGB from RGBA
-    color_array_8 = color_array_8[:, :3]
-    
-    point_cloud_gt.colors = o3d.utility.Vector3dVector(color_array_8) 
-
-print(len(color_array_8))
-print(type(color_array_8))
-print(type(color_array_8[0]))
-print(color_array_8[0])
-
-if debug:
-    o3d.visualization.draw_geometries([point_cloud_gt])
-
-# Create a VoxelGrid from the PointCloud
-voxel_grid_gt = o3d.geometry.VoxelGrid.create_from_point_cloud(point_cloud_gt, voxel_size)
-
-if debug:
-    o3d.visualization.draw_geometries([voxel_grid_gt])
+#===================================================================================
+#===================================================================================
+#===================================================================================

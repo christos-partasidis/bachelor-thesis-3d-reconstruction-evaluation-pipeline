@@ -217,7 +217,7 @@ Steps:
 10. Click "Undistortion", when done click "Stereo", when done click "Fusion", if asked to visualize the scene click "Yes", click "Poisson"
 11. Close the colmap gui, optionally save the project
    
-## 1.1.4 Cropping models with aabb and ground truth poses (v.1.0.3)
+## 1.1.4 Cropping models with bb and ground truth poses (v.1.0.4)
 crop_objects.py <br>
 Performs the following tasks: <br>
 1. Read object names (under criteria) used for the creation of the scene -> selected_objects (in model_def_list.txt) <br>
@@ -225,12 +225,13 @@ Performs the following tasks: <br>
 3. Read and visualize the ground point cloud <br>
 4. Read and visualize the colmap (aligned) point cloud <br>
 5. Reads all .ply from vrg_crop_gen/resources/model (or other specified directory) and stores for each selected <br>
-   object their corresponding file path for the raw .ply and the _bounding_box.ply <br>
-6. Combines and visualizes aabbs(both pcd and mesh) of selected_objects with ground truth and colmap (aligned) point clouds <br>
+   object their corresponding file path for the raw .ply <br>
+6. Combines and visualizes bbs(both pcd and mesh) of selected_objects with ground truth and colmap (aligned) point clouds <br>
 7. Combines and visualizes pcd of ground truth and colmap (aligned)
 8. Crop objects from ground truth pcd and store them
 9. Crop objects from colmap (aligned) pcd and store them
 10. Visualize and store combined ground truth and colmap (aligned) cropped objects
+11. Voxelize ground truth and colmap (aligned) cropped objects
 
 crop_objects.sh <br>
 Runs crop_objects.py based on the current repository
@@ -341,7 +342,7 @@ bash crop_objects.sh <br>
 ![combined_2](https://github.com/VIS4ROB-lab/vrg_colmap_reconstruction_evaluation/assets/113234371/3df5ae5e-7057-4afa-9a61-1de4db9a8a06)
 
 ## 1.1.5 Comparing voxel grids (groundtruth, colmap)
-compare_voxel_grids.py
+compare_voxel_grids.py v.1.0.1
 ...
 
 

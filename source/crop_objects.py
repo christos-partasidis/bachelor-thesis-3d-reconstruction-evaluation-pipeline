@@ -11,14 +11,18 @@
 # 8. Crop objects from ground truth pcd and store them
 # 9. Crop objects from colmap (aligned) pcd and store them
 # 10. Visualize and store combined ground truth and colmap (aligned) cropped objects
+# 11. Voxelize ground truth and colmap (aligned) cropped objects
+
 
 # Configuration:
 # Debug Mode: True to run in debug mode, False to run in normal mode
-debug = True
-debug2 = True
-debug3 = True
-debug4 = True
-debug5 = True
+debug = False
+debug2 = False
+debug3 = False
+debug4 = False
+debug5 = False
+debug6 = False
+
 
 # Section: 0
 # Importing modules
@@ -29,6 +33,7 @@ import sys
 import os
 import open3d as o3d
 import numpy as np
+import glob
 #===================================================================================
 #===================================================================================
 #===================================================================================
@@ -388,9 +393,10 @@ print("=========================================================================
 print("Section: 7")
 print("Combines and visualizes pcd of ground truth and colmap (aligned)\n")
 # Visualize ground truth and colmap (aligned) point clouds
-print("Visualizing combined pcd of ground truth and colmap (aligned)")
-all_geometries = [pcd_ground_truth] + [pcd_colmap_aligned]
-o3d.visualization.draw_geometries(all_geometries)
+if debug:
+    print("Visualizing combined pcd of ground truth and colmap (aligned)")
+    all_geometries = [pcd_ground_truth] + [pcd_colmap_aligned]
+    o3d.visualization.draw_geometries(all_geometries)
 #===================================================================================
 #===================================================================================
 #===================================================================================
@@ -631,4 +637,153 @@ print("Combined cropped objects saved successfully")
 #===================================================================================
 #===================================================================================
 #===================================================================================
+
+# Section: 11
+# Voxelize ground truth and colmap (aligned) cropped objects
+#===================================================================================
+#===================================================================================
+#===================================================================================
+print("\n==============================================================================================")
+print("==============================================================================================")
+print("Section: 11")
+print("Voxelize ground truth and colmap (aligned) cropped objects\n")
+
+# Subsection: Voxelize ground truth cropped objects
+
+# Use the glob module to find .ply files in the ground truth directory
+search_pattern_gt = os.path.join(file_path_gt_cropped_objects, '*.ply')
+
+for ply_file in glob.glob(search_pattern_gt):
+    
+    # Check if the file has a .ply extension
+    if ply_file.endswith('.ply'):
+        
+        # Get the name of the file
+        file_name = os.path.basename(ply_file)
+        
+        # Get the name of the parent directory
+        parent_directory_name = os.path.basename(os.path.dirname(ply_file))
+        
+        print(f"Voxelizing {parent_directory_name}/{file_name}...")
+        
+        # Read point cloud
+        pcd = o3d.io.read_point_cloud(ply_file)
+        
+        # Get number of points of point cloud
+        num_of_points = len(pcd.points)
+        
+        # Generate random shades of blue
+        blue_colors = np.random.uniform(0.0, 1.0, size=(num_of_points, 3))
+        
+        # Set the Red and Green channels to 0
+        blue_colors[:, 0] = 0.0  # Red
+        blue_colors[:, 1] = 0.0  # Green
+        
+        # Create an Open3D color class from the NumPy array
+        blue_colors = o3d.utility.Vector3dVector(blue_colors)
+        
+        # Assign the green colors to the point cloud
+        pcd.colors = blue_colors
+        
+        # Voxelize point cloud
+        voxel_grid = o3d.geometry.VoxelGrid.create_from_point_cloud(pcd, voxel_size=0.3)
+        
+        # Visualize point cloud and voxel grid
+        if debug6:
+            o3d.visualization.draw_geometries([pcd])
+            o3d.visualization.draw_geometries([voxel_grid])
+            
+        # Split the file_name into base name and extension
+        base_name, file_extension = os.path.splitext(file_name)
+        
+        # Append "_voxelized" to the base name
+        new_base_name = base_name + "_voxelized"
+        
+        # Extension to use
+        voxel_extension = ".ply"
+        
+        # Construct the output file name by combining the directory, new base name, and extension
+        output_file_name = os.path.join(file_path_gt_cropped_objects, new_base_name + voxel_extension)
+
+        # Save the voxel grid to the specified file
+        o3d.io.write_voxel_grid(output_file_name, voxel_grid) 
+        
+# Subsection: Voxelize colmap (aligned) cropped objects
+
+# Use the glob module to find .ply files in the colmap (aligned) directory
+search_pattern_colmap_a = os.path.join(file_path_colmap_a_cropped_objects, '*.ply')
+
+for ply_file in glob.glob(search_pattern_colmap_a):
+    
+    # Check if the file has a .ply extension
+    if ply_file.endswith('.ply'):
+        
+        # Get the name of the file
+        file_name = os.path.basename(ply_file)
+        
+        # Get the name of the parent directory
+        parent_directory_name = os.path.basename(os.path.dirname(ply_file))
+        
+        print(f"Voxelizing {parent_directory_name}/{file_name}...")
+        
+        # Read point cloud
+        pcd = o3d.io.read_point_cloud(ply_file)
+        
+        # Get number of points of point cloud
+        num_of_points = len(pcd.points)
+        
+        # Generate random shades of green
+        green_colors = np.random.uniform(0.0, 1.0, size=(num_of_points, 3))
+        
+        # Set the blue and red channels to 0
+        green_colors[:, 0] = 0.0  # Red
+        green_colors[:, 2] = 0.0  # Blue
+        
+        # Create an Open3D color class from the NumPy array
+        green_colors = o3d.utility.Vector3dVector(green_colors)
+        
+        # Assign the green colors to the point cloud
+        pcd.colors = green_colors
+        
+        # Voxelize point cloud
+        voxel_grid = o3d.geometry.VoxelGrid.create_from_point_cloud(pcd, voxel_size=0.3)
+        
+        # Visualize point cloud and voxel grid
+        if debug6:
+            o3d.visualization.draw_geometries([pcd])
+            o3d.visualization.draw_geometries([voxel_grid])
+            
+        # Split the file_name into base name and extension
+        base_name, file_extension = os.path.splitext(file_name)
+        
+        # Append "_voxelized" to the base name
+        new_base_name = base_name + "_voxelized"
+        
+        # Extension to use
+        voxel_extension = ".ply"
+        
+        # Construct the output file name by combining the directory, new base name, and extension
+        output_file_name = os.path.join(file_path_colmap_a_cropped_objects, new_base_name + voxel_extension)
+
+        # Save the voxel grid to the specified file
+        o3d.io.write_voxel_grid(output_file_name, voxel_grid) 
+
+#===================================================================================
+#===================================================================================
+#===================================================================================
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
