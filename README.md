@@ -348,7 +348,8 @@ compare_voxel_grids.py v.1.0.1
 compare_voxel_grids_temp.py v.1.0.0
 Contais all the tests that have been tried
 This is not in the main pipeline
-
+Keep in mind that if an unexpected error when running is found it might be due to memory limitations (e.g. on VSCode)
+When I was using jupyter notebook no error was detected but when moved to VSCode the error occurs if all sections are runned at the same time
 
 
 
