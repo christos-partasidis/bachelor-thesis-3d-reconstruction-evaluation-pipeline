@@ -345,6 +345,13 @@ bash crop_objects.sh <br>
 compare_voxel_grids.py v.1.0.1
 ...
 
+compare_voxel_grids_temp.py v.1.0.0
+Contais all the tests that have been tried
+This is not in the main pipeline
+
+
+
+
 
 
 
