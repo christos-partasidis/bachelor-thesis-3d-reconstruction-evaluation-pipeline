@@ -342,7 +342,7 @@ bash crop_objects.sh <br>
 ![combined_2](https://github.com/VIS4ROB-lab/vrg_colmap_reconstruction_evaluation/assets/113234371/3df5ae5e-7057-4afa-9a61-1de4db9a8a06)
 
 ## 1.1.5 Comparing voxel grids (groundtruth, colmap)
-compare_voxel_grids.py v.1.0.1
+compare_voxel_grids.py v.1.0.1 (old version of _all _gt _colmap) <to be removed>
 ...
 
 compare_voxel_grids_temp.py v.1.0.0
@@ -350,10 +350,13 @@ Contais all the tests that have been tried
 This is not in the main pipeline
 Keep in mind that if an unexpected error when running is found it might be due to memory limitations (e.g. on VSCode)
 When I was using jupyter notebook no error was detected but when moved to VSCode the error occurs if all sections are runned at the same time
+It was due to multiple plots not able to be windowed
 
+compare_voxel_grid_gt.py v.1.0.1
+Compares ground truth -> Colmap for a single cropped  object
 
+compare_voxel_grid_colmap.py v.1.0.1
+Compares Colmap -> Ground truth for a single cropped object
 
-
-
-
-
+compare_voxel_grids_all.py v1.0.0
+Used to run both compare_voxel_grid_gt.py and compare_voxel_grid_colmap.py for all cropped objects

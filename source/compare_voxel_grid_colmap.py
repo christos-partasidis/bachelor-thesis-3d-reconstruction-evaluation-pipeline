@@ -93,8 +93,9 @@ except ValueError:
 # False: the final voxel grids will have original colors
 random_colors_TF = False  # Default value for random_colors_TF
 
-# Check if optional arguments are provided
+# Check if random_colors_TF is provided
 if len(sys.argv) >= 6:
+    # Check if the string is "True" and assign the boolean value
     random_colors_str = sys.argv[5]
     if random_colors_str.lower() == "true":
         random_colors_TF = True
@@ -858,7 +859,8 @@ print("Creating ground truth voxel grid from points...")
 # Create a VoxelGrid from the PointCloud
 voxel_grid_colmap = o3d.geometry.VoxelGrid.create_from_point_cloud(point_cloud_colmap, voxel_size)
 
-o3d.visualization.draw_geometries([voxel_grid_colmap])
+if debug:
+    o3d.visualization.draw_geometries([voxel_grid_colmap])
 #===================================================================================
 #===================================================================================
 #===================================================================================
