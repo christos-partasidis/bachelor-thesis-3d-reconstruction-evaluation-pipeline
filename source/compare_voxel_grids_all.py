@@ -1,12 +1,12 @@
 #
 # The following script performs the following
 # 0. Import modules and read arguments
-# 1. Defining functions
+# 1. Defining classes and functions
 # 2. Configuration
 # 3. Read gt and colmap voxelized .ply files
 # 4. Runs compare_voxel_grid_gt.py and compare_voxel_grid_colmap.py
 #    for voxelized cropped objects found in the project
-
+# 5. Calculates and saves the total average metrics
 
 ## Section: 0
 ## Import modules and read arguments
@@ -16,6 +16,7 @@
 import os
 import sys
 import subprocess
+import glob
 
 # Get the path to the current script
 script_path = sys.argv[0]
@@ -110,7 +111,7 @@ print("5. color_map_value: ", color_map_value)
 #===================================================================================
 
 ## Section: 1
-## Defining functions
+## Defining classes and functions
 #===================================================================================
 #===================================================================================
 #===================================================================================
@@ -118,7 +119,12 @@ print("\n")
 print("==============================================================================================")
 print("==============================================================================================")
 print("Section: 1 | " + script_name)
-print("Defining functions\n")
+print("Defining classes and functions\n")
+
+class DataObject:
+    def __init__(self):
+        self.title = ""
+        self.value = ""
 
 def find_voxelized_ply_files(directory_path):
     voxelized_ply_files = []
@@ -132,6 +138,44 @@ def find_voxelized_ply_files(directory_path):
                 voxelized_ply_files.append(full_path)
 
     return voxelized_ply_files
+                    
+def extract_specific_lines(root_dir):
+    titles_to_extract = [
+        "GT %Voxels matched",
+        "GT Minimum Distance",
+        "GT Maximum Distance",
+        "GT Distances Mean Absolute Error (MAE)",
+        "GT Distances Root Mean Square Error (RMSE)",
+        "GT Distances Mean Squared Error (MSE)",
+        "COLMAP %Voxels matched at colmap",
+        "COLMAP Recall = TP/(TP+FN)",
+        "COLMAP Minimum Distance",
+        "COLMAP Maximum Distance",
+        "COLMAP Distances Mean Absolute Error (MAE)",
+        "COLMAP Distances Root Mean Square Error (RMSE)",
+        "COLMAP Distances Mean Squared Error (MSE)"
+    ]
+
+    data_lists = {title: [] for title in titles_to_extract}
+    
+    for dirpath, _, filenames in os.walk(root_dir):
+        for filename in filenames:
+            base_name, file_extension = os.path.splitext(filename)
+            if base_name.endswith("_data") and base_name[:-5].isdigit() and file_extension == ".txt":
+                file_path = os.path.join(dirpath, filename)
+                try:
+                    with open(file_path, 'r') as file:
+                        for line in file:
+                            line = line.strip()
+                            if line.startswith("#"):
+                                for title in titles_to_extract:
+                                    if title in line:
+                                        value = line.split(":")[1].strip()
+                                        data_lists[title].append(value)
+                except Exception as e:
+                    print(f"Error reading {file_path}: {e}")
+
+    return data_lists    
 #===================================================================================
 #===================================================================================
 #===================================================================================
@@ -167,6 +211,9 @@ if not os.path.exists(path_to_colmap_cropped):
     print(f"The colmap cropped objects directory '{path_to_colmap_cropped}' does not exist. Please create one and place")
     print("the colmap cropped objects (recommend: follow the main pipeline of the github repository)")
     sys.exit(1)
+
+# Construct path to metrics directory
+path_to_metrics = os.path.join(path_to_project, "metrics_vox_" + str(voxel_size).replace(".", "_") + "_bound_" + str(bound).replace(".", "_"))
 #===================================================================================
 #===================================================================================
 #===================================================================================
@@ -330,7 +377,225 @@ print("Successfully compared all cropped objects.")
 #===================================================================================
 #===================================================================================
 
+## Section: 5
+## Calculates and saves the total average metrics
+#===================================================================================
+#===================================================================================
+#===================================================================================
+print("\n")
+print("==============================================================================================")
+print("==============================================================================================")
+print("Section: 5 | " + script_name)
+print("Calculates and saves the total average metrics")
 
+# Check if metrics directory exists
+if not os.path.exists(path_to_metrics):
+    print(f"The metrics directory '{path_to_metrics}' does not exist.")
+    sys.exit(1)
+
+
+data_lists = extract_specific_lines(path_to_metrics)
+
+if debug2:
+    for title, values in data_lists.items():
+        print(f"Title: {title}")
+        print(f"Values: {values}")
+
+#==============================================================================================
+### GT metrics
+#==============================================================================================
+## Calculating average of GT %Voxels matched
+avg_gt_voxels_matched = 0.0
+sum_gt_voxels_matched = 0.0
+
+# Summing GT %Voxels matched
+for gt_perc_vox_match in data_lists["GT %Voxels matched"]:
+    
+    # Remove the '%' character and convert the remaining string to a float
+    gt_perc_vox_match = float(gt_perc_vox_match.rstrip('%'))
+    # Sum
+    sum_gt_voxels_matched += gt_perc_vox_match
+
+# Calculate average
+avg_gt_voxels_matched = sum_gt_voxels_matched / len(data_lists["GT %Voxels matched"])
+#==============================================================================================
+## Find minimum of all GT Minimum Distances
+# Convert the strings to floats and find the minimum float value
+min_gt_distance = min(float(x) for x in data_lists["GT Minimum Distance"])
+
+## Find maximum of all GT Minimum Distance
+# Convert the strings to floats and find the maximum float value
+max_gt_distance = max(float(x) for x in data_lists["GT Maximum Distance"])
+#==============================================================================================
+## Calculating average of GT Distances Mean Absolute Error (MAE)
+
+avg_gt_mae = 0.0
+sum_gt_mae = 0.0
+
+# Summing GT Distances Mean Absolute Error (MAE)
+for gt_mae in data_lists["GT Distances Mean Absolute Error (MAE)"]:
+    
+    # Convert the string to a float
+    gt_mae = float(gt_mae)
+    # Sum
+    sum_gt_mae += gt_mae
+
+# Calculate average
+avg_gt_mae = sum_gt_mae / len(data_lists["GT Distances Mean Absolute Error (MAE)"])
+#==============================================================================================
+## Calculating average of GT Distances Root Mean Square Error (RMSE)
+avg_gt_rmse = 0.0
+sum_gt_rmse = 0.0
+
+# Summing GT Distances Root Mean Square Error (RMSE)
+for gt_rmse in data_lists["GT Distances Root Mean Square Error (RMSE)"]:
+    
+    # Convert the string to a float
+    gt_rmse = float(gt_rmse)
+    # Sum
+    sum_gt_rmse += gt_rmse
+
+# Calculate average
+avg_gt_rmse = sum_gt_rmse / len(data_lists["GT Distances Root Mean Square Error (RMSE)"])
+#==============================================================================================
+## Calculating average of GT Distances Mean Squared Error (MSE)
+
+avg_gt_mse = 0.0
+sum_gt_mse = 0.0
+
+# Summing GT Distances Mean Squared Error (MSE)
+for gt_mse in data_lists["GT Distances Mean Squared Error (MSE)"]:
+    
+    # Convert the string to a float
+    gt_mse = float(gt_mse)
+    # Sum
+    sum_gt_mse += gt_mse
+
+# Calculate average
+avg_gt_mse = sum_gt_mse / len(data_lists["GT Distances Mean Squared Error (MSE)"])
+#==============================================================================================
+### COLMAP metrics
+#==============================================================================================
+## Calculating average of COLMAP %Voxels matched at colmap
+
+avg_colmap_voxels_matched = 0.0
+sum_colmap_voxels_matched = 0.0
+
+# Summing COLMAP %Voxels matched at colmap
+for colmap_perc_vox_match in data_lists["COLMAP %Voxels matched at colmap"]:
+    
+    # Remove the '%' character and convert the remaining string to a float
+    colmap_perc_vox_match = float(colmap_perc_vox_match.rstrip('%'))
+    # Sum
+    sum_colmap_voxels_matched += colmap_perc_vox_match
+
+# Calculate average
+avg_colmap_voxels_matched = sum_colmap_voxels_matched / len(data_lists["COLMAP %Voxels matched at colmap"])
+#==============================================================================================
+## Calculating average of COLMAP Recall = TP/(TP+FN)
+
+avg_colmap_recall = 0.0
+sum_colmap_recall = 0.0
+
+# Summing COLMAP Recall = TP/(TP+FN)
+for colmap_recall in data_lists["COLMAP Recall = TP/(TP+FN)"]:
+    
+    # Convert the string to a float
+    colmap_recall = float(colmap_recall)
+    # Sum
+    sum_colmap_recall += colmap_recall
+
+# Calculate average
+avg_colmap_recall = sum_colmap_recall / len(data_lists["COLMAP Recall = TP/(TP+FN)"])
+#==============================================================================================
+## Find minimum of all COLMAP Minimum Distance
+# Convert the strings to floats and find the minimum float value
+min_colmap_distance = min(float(x) for x in data_lists["COLMAP Minimum Distance"])
+#==============================================================================================
+## Find maximum of all COLMAP Minimum Distance
+# Convert the strings to floats and find the maximum float value
+max_colmap_distance = max(float(x) for x in data_lists["COLMAP Minimum Distance"])
+#==============================================================================================
+## Calculating average of COLMAP Distances Mean Absolute Error (MAE)
+
+avg_colmap_mae = 0.0
+sum_colmap_mae = 0.0
+
+# Summing COLMAP Distances Mean Absolute Error (MAE)
+for colmap_mae in data_lists["COLMAP Distances Mean Absolute Error (MAE)"]:
+    
+    # Convert the string to a float
+    colmap_mae = float(colmap_mae)
+    # Sum
+    sum_colmap_mae += colmap_mae
+
+# Calculate average
+avg_colmap_mae = sum_colmap_mae / len(data_lists["COLMAP Distances Mean Absolute Error (MAE)"])
+#==============================================================================================
+## Calculating average of COLMAP Distances Root Mean Square Error (RMSE)
+
+avg_colmap_rmse = 0.0
+sum_colmap_rmse = 0.0
+
+# Summing COLMAP Distances Root Mean Square Error (RMSE)
+for colmap_rmse in data_lists["COLMAP Distances Root Mean Square Error (RMSE)"]:
+    
+    # Convert the string to a float
+    colmap_rmse = float(colmap_rmse)
+    # Sum
+    sum_colmap_rmse += colmap_rmse
+
+# Calculate average
+avg_colmap_rmse = sum_colmap_rmse / len(data_lists["COLMAP Distances Root Mean Square Error (RMSE)"])
+#==============================================================================================
+## Calculating average of COLMAP Distances Mean Squared Error (MSE)
+
+avg_colmap_mse = 0.0
+sum_colmap_mse = 0.0
+
+# Summing COLMAP Distances Mean Squared Error (MSE)
+for colmap_mse in data_lists["COLMAP Distances Mean Squared Error (MSE)"]:
+    
+    # Convert the string to a float
+    colmap_mse = float(colmap_mse)
+    # Sum
+    sum_colmap_mse += colmap_mse
+
+# Calculate average
+avg_colmap_mse = sum_colmap_mse / len(data_lists["COLMAP Distances Mean Squared Error (MSE)"])
+#==============================================================================================
+# Define the content for "avg_metrics.txt"
+content_avg_metrics = f"""
+## GT
+avg_gt_voxels_matched: {avg_gt_voxels_matched/100.0:.2f}
+min_gt_distance: {min_gt_distance:.2f}
+max_gt_distance: {max_gt_distance:.2f}
+avg_gt_mae: {avg_gt_mae:.2f}
+avg_gt_rmse: {avg_gt_rmse:.2f}
+avg_gt_mse: {avg_gt_mse:.2f}
+
+## COLMAP 
+avg_colmap_voxels_matched: {avg_colmap_voxels_matched/100.0:.2f}
+avg_colmap_recall: {avg_colmap_recall:.2f}
+min_colmap_distance: {min_colmap_distance:.2f}
+max_colmap_distance: {max_colmap_distance:.2f}
+avg_colmap_mae: {avg_colmap_mae:.2f}
+avg_colmap_rmse: {avg_colmap_rmse:.2f}
+avg_colmap_mse: {avg_colmap_mse:.2f}
+"""
+#==============================================================================================
+# Define the file path for "avg_metrics.txt" within the directory
+path_to_avg_metrics = os.path.join(path_to_metrics, "avg_metrics.txt")
+
+# Write the content to the file
+with open(path_to_avg_metrics, "w") as file:
+    file.write(content_avg_metrics)
+
+# Print a confirmation message
+print(f"avg_metrics.txt has been created in {path_to_avg_metrics}")
+#===================================================================================
+#===================================================================================
+#===================================================================================
 
 
 

@@ -6,7 +6,7 @@
 # 4. Read and visualize the colmap (aligned) point cloud
 # 5. Reads all .ply from vrg_crop_gen/resources/model (or other specified directory) and stores for each selected
 #    object their corresponding file path for the raw .ply
-# 6. Combines and visualizes aabbs(both pcd and mesh) of selected_objects with ground truth and colmap (aligned) point clouds <br>
+# 6. Combines and visualizes bbs(both pcd and mesh) of selected_objects with ground truth and colmap (aligned) point clouds <br>
 # 7. Combines and visualizes pcd of ground truth and colmap (aligned)
 # 8. Crop objects from ground truth pcd and store them
 # 9. Crop objects from colmap (aligned) pcd and store them
