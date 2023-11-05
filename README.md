@@ -182,11 +182,11 @@ Using colmap model_aligner we are aligning the ground_truth and the estimated co
 
 align_models.py <br>
 Arguments: <br>
-1. <path_to_project>: The path to the project <br.
+1. <path_to_project>: The path to the project <br>
 Performs the following tasks: <br>
-1. Creates "align" directory within the project directory <br>
-2. Read poses of images from "image_poses.txt" from within the directory "output_dataset_txt" <br>
-3. Modifies read poses and stores them in "ground_truth_geo_registration.txt" within "aligning" directory <br>
+2. Creates "align" directory within the project directory <br>
+3. Read poses of images from "image_poses.txt" from within the directory "output_dataset_txt" <br>
+4. Modifies read poses and stores them in "ground_truth_geo_registration.txt" within "aligning" directory <br>
 
 align_models.sh <br>
 Arguments: None <br>
@@ -342,21 +342,67 @@ bash crop_objects.sh <br>
 ![combined_2](https://github.com/VIS4ROB-lab/vrg_colmap_reconstruction_evaluation/assets/113234371/3df5ae5e-7057-4afa-9a61-1de4db9a8a06)
 
 ## 1.1.5 Comparing voxel grids (groundtruth, colmap)
-compare_voxel_grids.py v.1.0.1 (old version of _all _gt _colmap) <to be removed>
-...
 
-compare_voxel_grids_temp.py v.1.0.0
-Contais all the tests that have been tried
-This is not in the main pipeline
-Keep in mind that if an unexpected error when running is found it might be due to memory limitations (e.g. on VSCode)
-When I was using jupyter notebook no error was detected but when moved to VSCode the error occurs if all sections are runned at the same time
-It was due to multiple plots not able to be windowed
+### compare_voxel_grids_temp.py v.1.0.0 (not in main pipeline) <br>
+**Description:** <br>
+Contais all the tests that have been tried. This is not in the main pipeline. 
+Keep in mind that if an unexpected error when running is found it might be due to memory limitations (e.g. on VSCode). When I was using jupyter notebook no error was detected but when moved to VSCode the error occurs if all sections are runned at the same time. It was due to multiple plots not able to be windowed
 
-compare_voxel_grid_gt.py v.1.0.1
-Compares ground truth -> Colmap for a single cropped  object
+### compare_voxel_grid_gt.py v.1.0.1 <br>
+**Description:** <br>
+Compares Ground truth -> Colmap for a single cropped object and stores metrics<br>
 
-compare_voxel_grid_colmap.py v.1.0.1
-Compares Colmap -> Ground truth for a single cropped object
+**Performs the following tasks:** <br>
+Check start of compare_voxel_grid_gt.py <br>
 
-compare_voxel_grids_all.py v1.0.0
-Used to run both compare_voxel_grid_gt.py and compare_voxel_grid_colmap.py for all cropped objects
+**Arguments:** <br>
+1. <path_to_gt_voxel_grid>: The path to the ground truth cropped object <br>
+2. <path_to_colmap_voxel_grid>: The path to the colmap cropped object <br>
+3. <voxel_size>: It is used when converting centers to point cloud and creating the corresponding voxel grid <br>
+4. <bound>: It is used for searching the area around a center, both for matching and distance <br>
+5. <random_colors_TF> (optional): True: the final voxel grids will have random colors, False (default): the final voxel grids will have original colors <br>
+6. <color_map_value> (optional): It is the color map used to convert distances to colors (default: viridis:  Low:Blue, High: Yellow, check matplotlib doc for other) <br>
+
+**Example execution:**<br>
+python3.10 compare_voxel_grid_gt.py /home/christos/Desktop/Gate/thesis/3d-reconstruction/programs/evaluation_repo/vrg_colmap_reconstruction_evaluation/projects/Apple_Winter_around_20231020_162443/gt_cropped_objects/1_gt_Apple_Trunk1_light_voxelized.ply home/christos/Desktop/Gate/thesis/3d-reconstruction/programs/evaluation_repo/vrg_colmap_reconstruction_evaluation/projects/Apple_Winter_around_20231020_162443/colmap_a_cropped_objects/1_colmap_Apple_Trunk1_light_voxelized.ply 0.3 0.3 false viridis
+
+### compare_voxel_grid_colmap.py v.1.0.1<br>
+**Description:** <br>
+Compares Colmap -> Ground truth for a single cropped object and stores metrics<br>
+
+**Performs the following tasks:** <br>
+Check start of compare_voxel_grid_colmap.py <br>
+
+**Arguments:** <br>
+Same as compare_voxel_grid_gt.py<br>
+
+**Example execution:**<br>
+python3.10 compare_voxel_grid_colmap.py /home/christos/Desktop/Gate/thesis/3d-reconstruction/programs/evaluation_repo/vrg_colmap_reconstruction_evaluation/projects/Apple_Winter_around_20231020_162443/gt_cropped_objects/1_gt_Apple_Trunk1_light_voxelized.ply home/christos/Desktop/Gate/thesis/3d-reconstruction/programs/evaluation_repo/vrg_colmap_reconstruction_evaluation/projects/Apple_Winter_around_20231020_162443/colmap_a_cropped_objects/1_colmap_Apple_Trunk1_light_voxelized.ply 0.3 0.3 false viridis
+
+### compare_voxel_grids_all.py v1.0.1<br>
+**Description:** <br>
+Used to run both compare_voxel_grid_gt.py and compare_voxel_grid_colmap.py for all cropped objects. It also <br>
+creates average metrics for all objects
+
+**Performs the following tasks:** <br>
+
+0. Import modules and read arguments
+1. Defining classes and functions
+2. Configuration
+3. Read gt and colmap voxelized .ply files
+4. Runs compare_voxel_grid_gt.py and compare_voxel_grid_colmap.py
+   for voxelized cropped objects found in the project
+5. Calculates and saves the total average metrics
+
+**Arguments:** <br>
+1. <path_to_project>: The path to the project that contains the cropped objects<br>
+2. <voxel_size>: It is used when converting centers to point cloud and creating the corresponding voxel grid<br>
+3. <bound>: It is used for searching the area around a center, both for matching and distance<br>
+4. <random_colors_TF> (optional): True: the final voxel grids will have random colors, False (default): the final voxel grids will have original colors<br>
+5. <color_map_value> (optional): It is the color map used to convert distances to colors (default: viridis:  Low:Blue, High: Yellow, check matplotlib doc for other)<br>
+
+**Example execution:**<br>
+python3.10 compare_voxel_grids_all.py /home/christos/Desktop/Gate/thesis/3d-reconstruction/programs/evaluation_repo/vrg_colmap_reconstruction_evaluation/projects/Apple_Winter_around_20231020_162443 0.3 0.3 false viridis
+
+
+
