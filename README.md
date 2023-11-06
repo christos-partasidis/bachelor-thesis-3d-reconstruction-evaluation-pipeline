@@ -404,5 +404,21 @@ creates average metrics for all objects
 **Example execution:**<br>
 python3.10 compare_voxel_grids_all.py /home/christos/Desktop/Gate/thesis/3d-reconstruction/programs/evaluation_repo/vrg_colmap_reconstruction_evaluation/projects/Apple_Winter_around_20231020_162443 0.3 0.3 false viridis
 
+### compare_voxel_grids_all_multiple.py v.1.0.0<br>
+**Description:** <br>
+Used to run compare_voxel_grids_all.py multiple times with different bound sizes that are statically defined [0.2, 0.3, 0.4, 0.7, 0.9, 1.2, 1.5, 2.0, 2.5, 3.0]
 
+**Performs the following tasks:** <br>
+0. Importing modules and reading arguments
+1. Run multiple times compare_voxel_grids_all.py but cahnge the bound each time
+
+**Arguments:** <br>
+1. <path_to_project>: provide the path to the project (that contains colmap_a_cropped_objects and gt_cropped_objects)<br>
+2. <voxel_size>: provide the voxel size of the voxel grids<br>
+3. <random_colors_TF (optional)>: true -> random colors to voxel grids, false (default) -> original colors<br>
+4. <color_map_value (optinal)>: color mapping of distances is done using matplotlib and they are a lot of options<br>
+   e.g. viridis (default): Low - Blue / High - Yellow, RdY1Gn: Low - Green / High - Red<br>
+
+**Example execution:**<br>
+python3.10 compare_voxel_grids_all_multiple.py /home/christos/Desktop/Gate/thesis/3d-reconstruction/programs/evaluation_repo/vrg_colmap_reconstruction_evaluation/projects/Apple_Winter_around_20231020_162443 0.3 false viridis
 

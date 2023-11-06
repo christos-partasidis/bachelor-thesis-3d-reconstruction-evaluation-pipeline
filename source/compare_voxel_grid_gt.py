@@ -80,7 +80,7 @@ except ValueError:
     print("Error: voxel_size (third argument) must be a valid float.")
     sys.exit(1)
 
-# bound: It us used for searching the area around a center both for matching and distance
+# bound: It is used for searching the area around a center both for matching and distance
 # Attempt to convert bound (forth argument) to a float
 try:
     bound = float(sys.argv[4])
@@ -266,8 +266,7 @@ print("\n")
 print("==============================================================================================")
 print("==============================================================================================")
 print("Section: 4 | " + script_name)
-print("Extract from the voxels the coordinates and the values from both ground truth and colmap\n")
-print("and estimated")
+print("Extract from the voxels the coordinates and the values from both ground truth and colmap")
 
 # Get ground truth voxels
 voxels_gt = voxel_grid_gt.get_voxels()
