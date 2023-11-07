@@ -18,10 +18,10 @@
 # 9. Print and save comparison metrics for matching (based on center w boundaries)
 
 #########################   DISTANCE CALCULATION WITH BOUNDARIES   #########################
-## TEST_2 VOXEL DISTANCE COLMAP -> GROUND TRUTH  (with boundaries)
+## TEST_2 VOXEL DISTANCE COLMAP -> GROUND TRUTH  (based on center with boundaries)
 ## COLMAP
-# 10. Find nearest voxel at ground truth voxel grid for all estimated voxels (with boundaries)
-# 11. Print and save comparison metrics for distances (with boundaries)
+# 10. Find nearest voxel at ground truth voxel grid for all estimated voxels (based on center with boundaries)
+# 11. Print and save comparison metrics for distances (based on center with boundaries)
 
 ## Section: 0
 ## Importing modules and reading arguments
@@ -751,9 +751,9 @@ with open(file_path_data, 'a') as file:
 #===================================================================================
 
 ## Section: 10
-## TEST_2 VOXEL DISTANCE COLMAP -> GROUND TRUTH  (with boundaries)
+## TEST_2 VOXEL DISTANCE COLMAP -> GROUND TRUTH  (based on center with boundaries)
 ## COLMAP
-# Find nearest voxel at ground truth voxel grid for all estimated voxels (with boundaries)
+# Find nearest voxel at ground truth voxel grid for all estimated voxels (based on center with boundaries)
 #===================================================================================
 #===================================================================================
 #===================================================================================
@@ -761,9 +761,9 @@ print("\n")
 print("==============================================================================================")
 print("==============================================================================================")
 print("Section: 10 | " + script_name)
-print("TEST_2 VOXEL DISTANCE COLMAP -> GROUND TRUTH  (with boundaries)")
+print("TEST_2 VOXEL DISTANCE COLMAP -> GROUND TRUTH  (based on center with boundaries)")
 print("COLMAP")
-print("Find nearest voxel at ground truth voxel grid for all estimated voxels (with boundaries)\n")
+print("Find nearest voxel at ground truth voxel grid for all estimated voxels (based on center with boundaries)\n")
 
 # Find minimum distance with boundaries
 minimum_distance_colmap_w_bound = np.min(distances_colmap_w_bound)
@@ -866,9 +866,9 @@ if debug:
 #===================================================================================
 
 ## Section: 11
-## TEST_2 VOXEL DISTANCE COLMAP -> GROUND TRUTH  (with boundaries)
+## TEST_2 VOXEL DISTANCE COLMAP -> GROUND TRUTH  (based on center with boundaries)
 ## COLMAP
-# Print and save comparison metrics for distances (with boundaries)
+# Print and save comparison metrics for distances (based on center with boundaries)
 #===================================================================================
 #===================================================================================
 #===================================================================================
@@ -876,9 +876,9 @@ print("\n")
 print("==============================================================================================")
 print("==============================================================================================")
 print("Section: 11 | " + script_name)
-print("TEST_2 VOXEL DISTANCE COLMAP -> GROUND TRUTH  (with boundaries)")
+print("TEST_2 VOXEL DISTANCE COLMAP -> GROUND TRUTH  (based on center with boundaries)")
 print("COLMAP")
-print("Print and save comparison metrics for distances (with boundaries)\n")
+print("Print and save comparison metrics for distances (based on center with boundaries)\n")
 
 # Print minimum and maximum distance
 print("Minimum Distance: {:.2f}".format(minimum_distance_colmap_w_bound))
