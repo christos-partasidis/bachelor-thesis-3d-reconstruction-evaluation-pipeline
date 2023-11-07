@@ -2,7 +2,7 @@
 # The following script performs the following
 # 0. Importing modules and reading arguments
 # 1. Read metrics for different bound sizes
-
+# 2. Create plots for metrics of different bound sizes
 
 # Section: 0
 ## Importing modules and reading arguments
@@ -83,7 +83,6 @@ metrics_dict = {
 }
 
 # List all directories in the specified path that start with "metrics" but are not "metrics_general"
-
 subdirectories = [d for d in os.listdir(path_to_project) if os.path.isdir(os.path.join(path_to_project, d)) and d.startswith("metrics") and d != "metrics_general"]
 
 # Iterate through the subdirectories and read the "avg_metrics.txt" file
@@ -168,9 +167,6 @@ metrics_general_dir = os.path.join(path_to_project, "metrics_general")
 if not os.path.exists(metrics_general_dir):
     os.makedirs(metrics_general_dir)
 
-# Prepare the x-axis values
-x_values = [0.2, 0.3, 0.4, 0.7, 0.9, 1.2, 1.5, 2.0, 2.5, 3.0]
-
 # Plot and save graphs for each attribute
 for attribute, values in metrics_dict.items():
     if attribute != "name_of_test":
@@ -181,7 +177,7 @@ for attribute, values in metrics_dict.items():
         fig.patch.set_facecolor('lightblue')
     
         # Plot the data on top of the background
-        plt.plot(x_values, [float(value) for value in values], marker='o')
+        plt.plot(sorted_suffix_values, [float(value) for value in values], marker='o')
         plt.xlabel(r'\textbf{Bound sizes}', fontsize=22)
         plt.ylabel(r'\textbf{' + attribute + r'}', fontsize=22)
         plt.title(r'\textbf{' + attribute + r' vs. Bound sizes}', fontsize=24)
