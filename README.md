@@ -422,3 +422,23 @@ Used to run compare_voxel_grids_all.py multiple times with different bound sizes
 **Example execution:**<br>
 python3.10 compare_voxel_grids_all_multiple.py /home/christos/Desktop/Gate/thesis/3d-reconstruction/programs/evaluation_repo/vrg_colmap_reconstruction_evaluation/projects/Apple_Winter_around_20231020_162443 0.3 false viridis
 
+### compare_metrics_all.py v.1.0.1<br>
+**Description:** <br>
+After running compare_voxel_grids_all_multiple.py, running this script will create plots that plot different metrics in correspondence with the different bound values
+
+**Performs the following tasks:** <br>
+0. Importing modules and reading arguments
+1. Run multiple times compare_voxel_grids_all.py but cahnge the bound each time
+
+**Arguments:** <br>
+1. <path_to_project>: provide the path to the project (that contains colmap_a_cropped_objects and gt_cropped_objects)<br>
+
+**Example execution:**<br>
+python3.10 compare_metrics_all.py /home/christos/Desktop/Gate/thesis/3d-reconstruction/programs/evaluation_repo/vrg_colmap_reconstruction_evaluation/projects/Apple_Winter_around_20231020_162443
+
+
+
+
+
+
+
