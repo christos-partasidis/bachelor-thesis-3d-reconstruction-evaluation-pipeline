@@ -409,8 +409,9 @@ python3.10 compare_voxel_grids_all.py /home/christos/Desktop/Gate/thesis/3d-reco
 Used to run compare_voxel_grids_all.py multiple times with different bound sizes that are statically defined [0.2, 0.3, 0.4, 0.7, 0.9, 1.2, 1.5, 2.0, 2.5, 3.0]
 
 **Performs the following tasks:** <br>
+
 0. Importing modules and reading arguments
-1. Run multiple times compare_voxel_grids_all.py but cahnge the bound each time
+1. Run multiple times compare_voxel_grids_all.py but change the bound each time<br>
 
 **Arguments:** <br>
 1. <path_to_project>: provide the path to the project (that contains colmap_a_cropped_objects and gt_cropped_objects)<br>
@@ -427,8 +428,9 @@ python3.10 compare_voxel_grids_all_multiple.py /home/christos/Desktop/Gate/thesi
 After running compare_voxel_grids_all_multiple.py, running this script will create plots that plot different metrics in correspondence with the different bound values
 
 **Performs the following tasks:** <br>
-0. Importing modules and reading arguments
-1. Run multiple times compare_voxel_grids_all.py but cahnge the bound each time
+0. Importing modules and reading arguments <br>
+1.Read metrics for different bound sizes <br>
+2. Create plots for metrics of different bound sizes <br>
 
 **Arguments:** <br>
 1. <path_to_project>: provide the path to the project (that contains colmap_a_cropped_objects and gt_cropped_objects)<br>
