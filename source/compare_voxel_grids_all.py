@@ -514,7 +514,7 @@ min_colmap_distance = min(float(x) for x in data_lists["COLMAP Minimum Distance"
 #==============================================================================================
 ## Find maximum of all COLMAP Minimum Distance
 # Convert the strings to floats and find the maximum float value
-max_colmap_distance = max(float(x) for x in data_lists["COLMAP Minimum Distance"])
+max_colmap_distance = max(float(x) for x in data_lists["COLMAP Maximum Distance"])
 #==============================================================================================
 ## Calculating average of COLMAP Distances Mean Absolute Error (MAE)
 

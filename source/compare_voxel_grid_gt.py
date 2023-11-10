@@ -7,8 +7,8 @@
 # 3. Read voxel grids of ground truth and estimated (colmap)
 # 4. Extract from the voxels the coordinates and the values from both ground truth and colmap
 # 5. Extract from the coordinates the ground truth and colmap centers
-#    and create the respective point clouds and create the respective point clouds
- 
+#    and create the respective point clouds
+
 #########################  VOXEL MATCHING WITH BOUNDARIES   #########################
 ## TEST_1: VOXEL MATCHING GROUND TRUTH -> COLMAP (based on center w boundaries)
 ## GROUND TRUTH
@@ -52,7 +52,7 @@ print("Reading arguments")
 
 if len(sys.argv) < 5 or len(sys.argv) > 7:
     print("Length of arguments: ", len(sys.argv))
-    print("Usage: python compare_voxel_grids.py 1<path_to_gt_voxel_grid> 2<path_to_colmap_voxel_grid>  3<voxel_size> 4<bound> 5<random_colors_TF>(true or false) 6<color_map_value>")
+    print("Usage: python compare_voxel_grid_gt.py 1<path_to_gt_voxel_grid> 2<path_to_colmap_voxel_grid>  3<voxel_size> 4<bound> 5<random_colors_TF>(true or false) 6<color_map_value>")
     sys.exit(1)
 
 # Read voxel grid of ground truth 
@@ -257,8 +257,7 @@ print("Colmap voxel grid: ", voxel_grid_colmap)
 #===================================================================================
 
 # Section: 4
-# Extract from the voxels the coordinates and the values from both ground truth and colmap
-# and estimated
+# Extract from the voxels the coordinates and the values from both ground truth and estimate (colmap)
 #===================================================================================
 #===================================================================================
 #===================================================================================
@@ -266,7 +265,7 @@ print("\n")
 print("==============================================================================================")
 print("==============================================================================================")
 print("Section: 4 | " + script_name)
-print("Extract from the voxels the coordinates and the values from both ground truth and colmap")
+print("Extract from the pcds the positions and the colors from both ground truth and estimate (colmap)")
 
 # Get ground truth voxels
 voxels_gt = voxel_grid_gt.get_voxels()
@@ -470,7 +469,7 @@ for i in range(num_gt_centers):
             dist_to_colmap_w_bound.append(distance.euclidean(gt_center, colmap_center))
             found_within_bounds = True
         else:
-            dist_to_colmap_w_bound.append(bound * 3)
+            dist_to_colmap_w_bound.append(bound)
             
     dist_to_colmap_w_bound = np.array(dist_to_colmap_w_bound)
     

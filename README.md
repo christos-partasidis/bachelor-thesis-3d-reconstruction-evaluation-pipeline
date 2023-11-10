@@ -348,7 +348,7 @@ bash crop_objects.sh <br>
 Contais all the tests that have been tried. This is not in the main pipeline. 
 Keep in mind that if an unexpected error when running is found it might be due to memory limitations (e.g. on VSCode). When I was using jupyter notebook no error was detected but when moved to VSCode the error occurs if all sections are runned at the same time. It was due to multiple plots not able to be windowed
 
-### compare_voxel_grid_gt.py v.1.0.1 <br>
+### compare_voxel_grid_gt.py v.1.0.2 <br>
 **Description:** <br>
 Compares Ground truth -> Estimated (Colmap) for a single cropped object and stores metrics<br>
 
@@ -387,7 +387,7 @@ Compares Ground truth -> Estimated (Colmap) for a single cropped object and stor
 **Example execution: (EXTRA NOT IN MAIN PIPELINE)**<br>
 python3.10 compare_voxel_grid_gt.py /home/christos/Desktop/Gate/thesis/3d-reconstruction/programs/evaluation_repo/vrg_colmap_reconstruction_evaluation/projects/Apple_Winter_around_20231020_162443/gt_cropped_objects/1_gt_Apple_Trunk1_light_voxelized.ply home/christos/Desktop/Gate/thesis/3d-reconstruction/programs/evaluation_repo/vrg_colmap_reconstruction_evaluation/projects/Apple_Winter_around_20231020_162443/colmap_a_cropped_objects/1_colmap_Apple_Trunk1_light_voxelized.ply 0.3 0.3 false viridis
 
-### compare_voxel_grid_colmap.py v.1.0.1<br>
+### compare_voxel_grid_colmap.py v.1.0.2<br>
 **Description:** <br>
 Compares Estimated (Colmap) -> Ground truth for a single cropped object and stores metrics<br>
 
@@ -421,7 +421,7 @@ Same as compare_voxel_grid_gt.py<br>
 **Example execution: (EXTRA NOT IN MAIN PIPELINE)**<br>
 python3.10 compare_voxel_grid_colmap.py /home/christos/Desktop/Gate/thesis/3d-reconstruction/programs/evaluation_repo/vrg_colmap_reconstruction_evaluation/projects/Apple_Winter_around_20231020_162443/gt_cropped_objects/1_gt_Apple_Trunk1_light_voxelized.ply home/christos/Desktop/Gate/thesis/3d-reconstruction/programs/evaluation_repo/vrg_colmap_reconstruction_evaluation/projects/Apple_Winter_around_20231020_162443/colmap_a_cropped_objects/1_colmap_Apple_Trunk1_light_voxelized.ply 0.3 0.3 false viridis
 
-### compare_voxel_grids_all.py v1.0.1<br>
+### compare_voxel_grids_all.py v1.0.2<br>
 **Description:** <br>
 Used to run both compare_voxel_grid_gt.py and compare_voxel_grid_colmap.py for all cropped objects. It also <br>
 creates average metrics for all objects
