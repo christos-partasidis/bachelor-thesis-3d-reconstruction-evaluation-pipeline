@@ -350,33 +350,75 @@ Keep in mind that if an unexpected error when running is found it might be due t
 
 ### compare_voxel_grid_gt.py v.1.0.1 <br>
 **Description:** <br>
-Compares Ground truth -> Colmap for a single cropped object and stores metrics<br>
+Compares Ground truth -> Estimated (Colmap) for a single cropped object and stores metrics<br>
 
 **Performs the following tasks:** <br>
-Check start of compare_voxel_grid_gt.py <br>
+
+**GENERAL**<br>
+
+0. Importing modules and reading arguments
+1. Defining functions
+2. Configuration
+3. Read voxel grids of ground truth and estimated (colmap)
+4. Extract from the voxels the coordinates and the values from both ground truth and colmap
+5. Extract from the coordinates the ground truth and colmap centers
+   and create the respective point clouds and create the respective point clouds
+   
+**TEST_1: VOXEL MATCHING GROUND TRUTH -> COLMAP (based on center w boundaries)** <br>
+
+6. Find voxels in ground truth that exist in estimate (based on center w boundaries)
+7. Convert matched voxel coords to point cloud and voxel grid
+8. Color found voxels with original (blue) and not found with red
+9. Print and save comparison metrics for matching (based on center w boundaries)
+
+**TEST_2 VOXEL DISTANCE GROUND TRUTH -> COLMAP (based on center with boundaries)**
+
+10. Find nearest voxel at estimated voxel grid for all ground truth voxels (based on center with boundaries)
+11. Print and save comparison metrics for distances (based on center with boundaries)
 
 **Arguments:** <br>
 1. <path_to_gt_voxel_grid>: The path to the ground truth cropped object <br>
 2. <path_to_colmap_voxel_grid>: The path to the colmap cropped object <br>
 3. <voxel_size>: It is used when converting centers to point cloud and creating the corresponding voxel grid <br>
-4. <bound>: It is used for searching the area around a center, both for matching and distance <br>
+4. <-bound->:  It is used for searching the area around a center, both for matching and distance <br>
 5. <random_colors_TF> (optional): True: the final voxel grids will have random colors, False (default): the final voxel grids will have original colors <br>
 6. <color_map_value> (optional): It is the color map used to convert distances to colors (default: viridis:  Low:Blue, High: Yellow, check matplotlib doc for other) <br>
 
-**Example execution:**<br>
+**Example execution: (EXTRA NOT IN MAIN PIPELINE)**<br>
 python3.10 compare_voxel_grid_gt.py /home/christos/Desktop/Gate/thesis/3d-reconstruction/programs/evaluation_repo/vrg_colmap_reconstruction_evaluation/projects/Apple_Winter_around_20231020_162443/gt_cropped_objects/1_gt_Apple_Trunk1_light_voxelized.ply home/christos/Desktop/Gate/thesis/3d-reconstruction/programs/evaluation_repo/vrg_colmap_reconstruction_evaluation/projects/Apple_Winter_around_20231020_162443/colmap_a_cropped_objects/1_colmap_Apple_Trunk1_light_voxelized.ply 0.3 0.3 false viridis
 
 ### compare_voxel_grid_colmap.py v.1.0.1<br>
 **Description:** <br>
-Compares Colmap -> Ground truth for a single cropped object and stores metrics<br>
+Compares Estimated (Colmap) -> Ground truth for a single cropped object and stores metrics<br>
 
 **Performs the following tasks:** <br>
-Check start of compare_voxel_grid_colmap.py <br>
+
+**GENERAL** <br>
+
+0. Importing modules and reading arguments
+1. Defining functions
+2. Configuration
+3. Read voxel grids of ground truth and estimated (colmap)
+4. Extract from the voxels the coordinates and the values from both ground truth and colmap
+5. Extract from the coordinates the ground truth and colmap centers
+   and create the respective point clouds
+ 
+**TEST_1: VOXEL MATCHING COLMAP -> GROUND TRUTH (based on center w boundaries)**
+
+6. Find voxels in estimate that exist in ground truth (based on center w boundaries)
+7. Convert matched voxel coords to point cloud and voxel grid
+8. Color found voxels with original (green) and not found with red
+9. Print and save comparison metrics for matching (based on center w boundaries)
+
+**TEST_2 VOXEL DISTANCE COLMAP -> GROUND TRUTH  (based on center with boundaries)**
+
+10. Find nearest voxel at ground truth voxel grid for all estimated voxels (based on center with boundaries)
+11. Print and save comparison metrics for distances (based on center with boundaries)
 
 **Arguments:** <br>
 Same as compare_voxel_grid_gt.py<br>
 
-**Example execution:**<br>
+**Example execution: (EXTRA NOT IN MAIN PIPELINE)**<br>
 python3.10 compare_voxel_grid_colmap.py /home/christos/Desktop/Gate/thesis/3d-reconstruction/programs/evaluation_repo/vrg_colmap_reconstruction_evaluation/projects/Apple_Winter_around_20231020_162443/gt_cropped_objects/1_gt_Apple_Trunk1_light_voxelized.ply home/christos/Desktop/Gate/thesis/3d-reconstruction/programs/evaluation_repo/vrg_colmap_reconstruction_evaluation/projects/Apple_Winter_around_20231020_162443/colmap_a_cropped_objects/1_colmap_Apple_Trunk1_light_voxelized.ply 0.3 0.3 false viridis
 
 ### compare_voxel_grids_all.py v1.0.1<br>
@@ -397,11 +439,11 @@ creates average metrics for all objects
 **Arguments:** <br>
 1. <path_to_project>: The path to the project that contains the cropped objects<br>
 2. <voxel_size>: It is used when converting centers to point cloud and creating the corresponding voxel grid<br>
-3. <bound>: It is used for searching the area around a center, both for matching and distance<br>
+3. <-bound->: It is used for searching the area around a center, both for matching and distance<br>
 4. <random_colors_TF> (optional): True: the final voxel grids will have random colors, False (default): the final voxel grids will have original colors<br>
 5. <color_map_value> (optional): It is the color map used to convert distances to colors (default: viridis:  Low:Blue, High: Yellow, check matplotlib doc for other)<br>
 
-**Example execution:**<br>
+**Example execution: (EXTRA NOT IN MAIN PIPELINE)**<br>
 python3.10 compare_voxel_grids_all.py /home/christos/Desktop/Gate/thesis/3d-reconstruction/programs/evaluation_repo/vrg_colmap_reconstruction_evaluation/projects/Apple_Winter_around_20231020_162443 0.3 0.3 false viridis
 
 ### compare_voxel_grids_all_multiple.py v.1.0.0<br>
