@@ -51,7 +51,7 @@ This is the path of the current repository
   
 ## 1.0.5 Creating the dataset using vrg_crop_gen
 First a dataset has to be created. Read the documentation of vrg_crop_gen to learn about the process. 
-After modifying the vk_glasses_flags.txt found in {1}/vrg_crop_gen in the following way <br>
+After modifying the vk_glasses_flags.txt found in {1}/vrg_crop_gen/source in the following way <br>
 """ <br>
 --output_folder_path={1}/vrg_crop_gen/source/output <br>
 --fx=2559 <br>
@@ -99,7 +99,7 @@ Navigate at {6}/source and execute "bash prepare_dataset.sh"
 - Click "New" at the "Database" section, navigate inside the dataset directory created, located at {6}/projects/* where the * is the name of the directory containing the dataset you want to reconstruct, name it "database", click "Save"
 - Click "Select" at the "Images" section, navigate to {6}/projects/*/output_dataset_images directory and click open
 - Click "Save"
-- File -> Save project, navigate at {6}/projects/* directory, name it "project" , slick "Save"
+- File -> Save project, navigate at {6}/projects/* directory, name it "project" , click "Save"
 
 ![image](https://github.com/VIS4ROB-lab/vrg_colmap_reconstruction_evaluation/assets/113234371/a336bf98-323f-4ed6-abdc-60ca92ffacc8 "This is the structure you should have")
 
@@ -109,26 +109,32 @@ Navigate at {6}/source and execute "bash prepare_dataset.sh"
 - Check "Shared for all images"
 - Check "Custom parameters"
 - To write the custom parameters navigate to {1}/vrg_crop_gen/source through file explorer or terminal
-- Open vk_glasses_csv_flags.txt  
+- Open vk_glasses_csv_flags.txt  <br><br>
 ![image](https://github.com/VIS4ROB-lab/vrg_colmap_reconstruction_evaluation/assets/113234371/681d2f9c-087a-4be4-aade-69620611d223 "Check f, cx, cy")
-- Now depending on your vk_glasses_csv_flags.txt write in the colmap section the f, cx, cy you checked. Note that in my case fx, fy and f are all the same
-- Again feel free to modify any configurations as you wish. This is why I recommend the manual process
-- Click "Extract"
-- Once the exctraction is finished, close the tab for extraction and go back to the colmap main gui
-- Processing → Feature Matching
-- If the number of images is a few hundreds select "Exhaustive" method or else check colmap documentation for recommendations. Again modify any configurations you find necessary
-- Click "Run"
-- Once finished close the Feature Matching tab
-- Next back in the main colmap gui click Reconstruction → Start reconstruction
-- Once finished click File → Export all models and select the {6}/projects/* directory and click "Open"
+- Now depending on your vk_glasses_csv_flags.txt write in the colmap section the f, cx, cy you checked. Note that in my case fx, fy and f are all the same<br>
+- Again feel free to modify any configurations as you wish. This is why I recommend the manual process<br>
+- Click "Extract"<br>
+- Once the exctraction is finished, close the tab for extraction and go back to the colmap main gui<br>
+- Processing → Feature Matching<br>
+- If the number of images is a few hundreds select "Exhaustive" method or else check colmap documentation for recommendations. Again modify any configurations you find necessary<br>
+- Click "Run"<br>
+- Once finished close the Feature Matching tab<br>
+- Next back in the main colmap gui click Reconstruction → Start reconstruction<br>
+
+#### Sparse point cloud
 ![image](https://github.com/VIS4ROB-lab/vrg_colmap_reconstruction_evaluation/assets/113234371/64df17f0-79ca-4949-9594-2186e49d15b5 "This is the sparse reconstruction")
+
+<br>
+
+- Once finished click File → Export all models and select the {6}/projects/* directory and click "Open" <br>
 - At this point the sparse reconstruction has been created. Now exporting the model by following the previous step creates a directory that contains some binary files, but we care about images.bin which are the estimates for the images in binary format
-- This is in binary form, for our convenience we want to create them in text format. Previous step was done just for book keeping
+- This is in binary form, for our convenience we want to create them in text format. Previous step was done just for book keeping <br>
+
 ![image](https://github.com/VIS4ROB-lab/vrg_colmap_reconstruction_evaluation/assets/113234371/eadbdcd4-c841-4195-938f-60a20143ae10 "Inside * directory")
 
 ![image](https://github.com/VIS4ROB-lab/vrg_colmap_reconstruction_evaluation/assets/113234371/8154320f-05a8-41fe-95de-fc780f07d0fb "Inside 0 directory")
 
-- File → Export model as text, select the "0" directory and click "Open". This will export them as .txt <br>
+- File → Export model as text, select the "0" directory and click "Open". This will export them as .txt <br><br>
 ![image](https://github.com/VIS4ROB-lab/vrg_colmap_reconstruction_evaluation/assets/113234371/9fcfd29e-1043-4d4e-b915-b014e2583c48 "Inside 0 directory")
 - At this point this is enough to create the evaluation of the image poses, dense reconstruction can be skipped if you only want to evaluate the estimated poses(the following steps of this section). If you want to <br>
 also evaluate the estimated scenes continue with the dense reconstruction
