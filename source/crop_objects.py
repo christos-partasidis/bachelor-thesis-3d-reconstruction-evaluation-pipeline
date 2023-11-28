@@ -16,12 +16,12 @@
 
 # Configuration:
 # Debug Mode: True to run in debug mode, False to run in normal mode
-debug = False
-debug2 = False
-debug3 = False
-debug4 = False
-debug5 = False
-debug6 = False
+debug = True
+debug2 = True
+debug3 = True
+debug4 = True
+debug5 = True
+debug6 = True
 
 
 # Section: 0
@@ -277,22 +277,27 @@ def combine_all_aabb(object_poses, all_aabb):
         print("Reading pcd of object")
         pcd_obj = o3d.io.read_point_cloud(obj.path_to_ply)
         
-        # Visualization for debugging purposes
-        #o3d.visualization.draw_geometries([pcd_obj])
+        # Calculate aabb
         aabb = pcd_obj.get_axis_aligned_bounding_box()
+        # Set color of aabb to red
         aabb.color = (1, 0, 0)
         if debug:
             print("Visualizing pcd of object with aabb")
             o3d.visualization.draw_geometries([pcd_obj, aabb])
 
+        # Get points of axis aligned bounding box
         points_of_aabb = aabb.get_box_points()
+
+        # Set the translation matrix based on the position of the object
         translation = np.array([obj.x_coords, obj.y_coords, obj.z_coords])
 
         # Create transformation matrices
         translation_matrix = np.identity(4)
         translation_matrix[:3, 3] = translation
         # Rotation in degrees around the Z-axis
+        # Transform to radians
         rotation_radians = np.radians(obj.yaw)
+        # Create the rotation matrix
         rotation_matrix = np.array([
             [np.cos(rotation_radians), -np.sin(rotation_radians), 0, 0],
             [np.sin(rotation_radians), np.cos(rotation_radians), 0, 0],
@@ -303,9 +308,10 @@ def combine_all_aabb(object_poses, all_aabb):
         # Combine translation and rotation into a single transformation matrix
         transformation_matrix = np.dot(translation_matrix, rotation_matrix)
         
+        # Create an empty point cloud object
         points_of_aabb_open3d_obj = o3d.geometry.PointCloud()
+        # Set the points of the point cloud to the points that we got from the aabb
         points_of_aabb_open3d_obj.points = o3d.utility.Vector3dVector(points_of_aabb)
-
         # Apply the transformation to the point cloud
         points_of_aabb_open3d_obj.transform(transformation_matrix)
 
@@ -313,6 +319,7 @@ def combine_all_aabb(object_poses, all_aabb):
             print("Visualizing pcd of aabb (after transform)")
             o3d.visualization.draw_geometries([points_of_aabb_open3d_obj])
 
+        # Set the pairs of points to be used to create the triangles of the mesh
         triangles = np.array([
         [3, 6, 5],
         [4, 5, 6],
@@ -327,10 +334,14 @@ def combine_all_aabb(object_poses, all_aabb):
         [2, 5, 4],
         [2, 4, 7]
         ])
-
+        
+        # Create an empty object of a triangle mesh
         mesh = o3d.geometry.TriangleMesh()
+        # Set the vertices of the mesh to the transformed points
         mesh.vertices = points_of_aabb_open3d_obj.points
+        # Set the pairs to create the triangles
         mesh.triangles = o3d.utility.Vector3iVector(triangles)
+
         if debug:
             print("Visualizing mesh of aabb (after transform)")
             o3d.visualization.draw_geometries([mesh])
@@ -419,7 +430,7 @@ for mesh in all_aabb:
     vertices = mesh.vertices
     # Transform to o3d vector
     o3d_vertices = o3d.utility.Vector3dVector(vertices)
-    # Create oriented bounding box from mesh vertices
+    # Create oriented bounding box from the mesh vertices
     bounding_box = o3d.geometry.OrientedBoundingBox.create_from_points(o3d_vertices) 
 
     if debug2:
@@ -579,14 +590,14 @@ print("Colmap (aligned) cropped objects saved successfully")
 #===================================================================================
 
 # Section: 10 
-# Visualize combined ground truth and colmap (aligned) cropped objects
+# Visualize and store combined ground truth and colmap (aligned) cropped objects
 #===================================================================================
 #===================================================================================
 #===================================================================================
 print("\n==============================================================================================")
 print("==============================================================================================")
 print("Section: 10")
-print("Visualize combined ground truth and colmap (aligned) cropped objects\n")
+print("Visualize and store combined ground truth and colmap (aligned) cropped objects\n")
 # Constructing combined cropped objects file path
 file_name_combined_cropped_objects = "combined_cropped_objects"
 file_path_combined_cropped_objects = os.path.join(file_path_to_project, file_name_combined_cropped_objects)
@@ -682,7 +693,7 @@ for ply_file in glob.glob(search_pattern_gt):
         # Create an Open3D color class from the NumPy array
         blue_colors = o3d.utility.Vector3dVector(blue_colors)
         
-        # Assign the green colors to the point cloud
+        # Assign the blue colors to the point cloud
         pcd.colors = blue_colors
         
         # Voxelize point cloud
