@@ -388,7 +388,7 @@ Compares Ground truth -> Estimated (Colmap) for a single cropped object and stor
 3. Read voxel grids of ground truth and estimated (colmap)
 4. Extract from the voxels the coordinates and the values from both ground truth and colmap
 5. Extract from the coordinates the ground truth and colmap centers
-   and create the respective point clouds and create the respective point clouds
+   and create the respective point clouds
    
 **TEST_1: VOXEL MATCHING GROUND TRUTH -> COLMAP (based on center w boundaries)** <br>
 
