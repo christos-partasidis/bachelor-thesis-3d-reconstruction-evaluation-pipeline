@@ -7,7 +7,9 @@ python: 3.10 <br>
 colmap: 3.9 (Commit 2226fa1 on 2023-07-05 with CUDA) <br>
 "{i}" indicates specific directory paths for reference, where you need to install the following three repositories and other resources.
 These paths can be chosen at your discretion, use your own paths instead of {i} and ensure their utilization within the 'configuration_flags.txt' file to configure the settings(following section) <br>
-When running the scripts do not change the contained files within the directories involved because that could cause unwanted problems
+When running the scripts do not change the contained files within the directories involved because that could cause unwanted problems. <br>
+Also this README contains extra information to explain extra programs. Please watch out for indications of when to execute something in order to follow the MAIN PIPELINE.<br>
+If you don't see an indication saying that this is not in the MAIN PIPELINE then it belong to it so execute it. <br>
 
 ## 1.0.1 Install vrg_crop_gen
 Follow the process at https://github.com/VIS4ROB-lab/vrg_crop_gen and install it in a specific directory {1} <br>
@@ -138,6 +140,7 @@ Navigate at {6}/source and execute "bash prepare_dataset.sh"
 ![image](https://github.com/VIS4ROB-lab/vrg_colmap_reconstruction_evaluation/assets/113234371/9fcfd29e-1043-4d4e-b915-b014e2583c48 "Inside 0 directory")
 - At this point this is enough to create the evaluation of the image poses, dense reconstruction can be skipped if you only want to evaluate the estimated poses(the following steps of this section). If you want to <br>
 also evaluate the estimated scenes continue with the dense reconstruction
+**SKIP THE FOLLOWING STEPS BECAUSE FIRST THE ALIGNMENT SHOULD BE PERFORMED!**
 - Reconstruction → Dense reconstruction
 - Click "Select" to select a workspace, choose {6}/projects/* directory
 - Click "Undistortion"
@@ -189,10 +192,11 @@ Using colmap model_aligner we are aligning the ground_truth and the estimated co
 align_models.py <br>
 Arguments: <br>
 1. <path_to_project>: The path to the project <br>
+
 Performs the following tasks: <br>
-2. Creates "align" directory within the project directory <br>
-3. Read poses of images from "image_poses.txt" from within the directory "output_dataset_txt" <br>
-4. Modifies read poses and stores them in "ground_truth_geo_registration.txt" within "aligning" directory <br>
+1. Creates "align" directory within the project directory <br>
+2. Read poses of images from "image_poses.txt" from within the directory "output_dataset_txt" <br>
+3. Modifies read poses and stores them in "ground_truth_geo_registration.txt" within "aligning" directory <br>
 
 align_models.sh <br>
 Arguments: None <br>
@@ -209,11 +213,11 @@ After executing the above script, inside the project directory ({6}/projects/*) 
 they will exist three .bin files. Using these we will reconstruct the aligned dense scene
 
 ## 1.1.3 Creating dense scene (manually)
-This process is currently performed manually (in the future check colmap cli)
+This process is currently performed manually (in the future check colmap cli)<br>
 Steps:
 1. Navigate at {2}/colmap/build - "cd {2}/colmap/build" 
 2. Open the colmap GUI by - "colmap gui"
-3. "File" -> "Import model", and select the directory {6}/projects/*/align where the * is the project that is in {6}/projects/latest.txt (currently working on)|
+3. "File" -> "Import model", and select the directory {6}/projects/*/align where the * is the project that is in {6}/projects/latest.txt (currently working on)
 4. You will be asked to "specify a valid database and image path". Click "Yes"
 5. In the "Database" section click "New", name it "database" and click "Save"
 6. In the "Images" section click "Select", navigate one parent directory up at {6}/projects/* and select the "images" directory {6}/projects/*/images, Click "Open"
@@ -224,8 +228,12 @@ Steps:
 11. Close the colmap gui, optionally save the project
    
 ## 1.1.4 Cropping models with bb and ground truth poses (v.1.0.4)
-crop_objects.py <br>
-Performs the following tasks: <br>
+### crop_objects.py <br>
+**Description:** <br>
+For the ground truth scene and the colmap scene it crops the objects selected (the type of the objects is set statically within the file) and stores them in specific directories.
+Also it combines the cropped objects and voxelizes them.
+
+**Performs the following tasks:** <br>
 1. Read object names (under criteria) used for the creation of the scene -> selected_objects (in model_def_list.txt) <br>
 2. Read poses of selected_objects (in model_poses_list.txt) <br>
 3. Read and visualize the ground point cloud <br>
@@ -239,10 +247,22 @@ Performs the following tasks: <br>
 10. Visualize and store combined ground truth and colmap (aligned) cropped objects
 11. Voxelize ground truth and colmap (aligned) cropped objects
 
-crop_objects.sh <br>
-Runs crop_objects.py based on the current repository
 
-To run the script execute: <br>
+**Arguments:** <br>
+1. <file_path_to_project>: provide the path to the project that contains output_dataset_txt and ground_truth_point_cloud.xyz <br>
+2. <file_path_to_model_dir>: provide the path to the parent directory that in resources/model has the models e.g. check vrg_crop_gen
+
+**Example execution: (EXTRA NOT IN MAIN PIPELINE)** <br>
+python3.10 crop_objects.py Apple_Winter_around_20231126_200513 /home/christos/Desktop/Gate/thesis/3d-reconstruction/programs/dataset-simulation-fixing/vrg_crop_gen/resources/model
+
+
+### crop_objects.sh <br>
+**Description:** <br>
+Runs crop_objects.py based on the current repository meaning that it:
+1. Reads the {6}/projects/latest.txt to find the project to perform the cropping
+2. Reads the {6}/configurations_flags.txt to identify the path to the resources/model directory that contains the models of the objects
+
+**Example execution:** <br>
 bash crop_objects.sh <br>
 
 ### Ground truth
@@ -352,7 +372,7 @@ bash crop_objects.sh <br>
 ### compare_voxel_grids_temp.py v.1.0.0 (not in main pipeline) <br>
 **Description:** <br>
 Contais all the tests that have been tried. This is not in the main pipeline. 
-Keep in mind that if an unexpected error when running is found it might be due to memory limitations (e.g. on VSCode). When I was using jupyter notebook no error was detected but when moved to VSCode the error occurs if all sections are runned at the same time. It was due to multiple plots not able to be windowed
+Keep in mind that if an unexpected error when running it is found it might be due to memory limitations (e.g. on VSCode). When I was using jupyter notebook no error was detected but when moved to VSCode the error occurs if all sections are runned at the same time. It was due to multiple plots not able to be windowed
 
 ### compare_voxel_grid_gt.py v.1.0.2 <br>
 **Description:** <br>
@@ -390,7 +410,7 @@ Compares Ground truth -> Estimated (Colmap) for a single cropped object and stor
 5. <random_colors_TF> (optional): True: the final voxel grids will have random colors, False (default): the final voxel grids will have original colors <br>
 6. <color_map_value> (optional): It is the color map used to convert distances to colors (default: viridis:  Low:Blue, High: Yellow, check matplotlib doc for other) <br>
 
-**Example execution: (EXTRA NOT IN MAIN PIPELINE)**<br>
+**Example execution: (EXTRA NOT IN MAIN PIPELINE)** <br>
 python3.10 compare_voxel_grid_gt.py /home/christos/Desktop/Gate/thesis/3d-reconstruction/programs/evaluation_repo/vrg_colmap_reconstruction_evaluation/projects/Apple_Winter_around_20231020_162443/gt_cropped_objects/1_gt_Apple_Trunk1_light_voxelized.ply home/christos/Desktop/Gate/thesis/3d-reconstruction/programs/evaluation_repo/vrg_colmap_reconstruction_evaluation/projects/Apple_Winter_around_20231020_162443/colmap_a_cropped_objects/1_colmap_Apple_Trunk1_light_voxelized.ply 0.3 0.3 false viridis
 
 ### compare_voxel_grid_colmap.py v.1.0.2<br>
@@ -424,7 +444,7 @@ Compares Estimated (Colmap) -> Ground truth for a single cropped object and stor
 **Arguments:** <br>
 Same as compare_voxel_grid_gt.py<br>
 
-**Example execution: (EXTRA NOT IN MAIN PIPELINE)**<br>
+**Example execution: (EXTRA NOT IN MAIN PIPELINE)** <br>
 python3.10 compare_voxel_grid_colmap.py /home/christos/Desktop/Gate/thesis/3d-reconstruction/programs/evaluation_repo/vrg_colmap_reconstruction_evaluation/projects/Apple_Winter_around_20231020_162443/gt_cropped_objects/1_gt_Apple_Trunk1_light_voxelized.ply home/christos/Desktop/Gate/thesis/3d-reconstruction/programs/evaluation_repo/vrg_colmap_reconstruction_evaluation/projects/Apple_Winter_around_20231020_162443/colmap_a_cropped_objects/1_colmap_Apple_Trunk1_light_voxelized.ply 0.3 0.3 false viridis
 
 ### compare_voxel_grids_all.py v1.0.2<br>
@@ -449,7 +469,7 @@ creates average metrics for all objects
 4. <random_colors_TF> (optional): True: the final voxel grids will have random colors, False (default): the final voxel grids will have original colors<br>
 5. <color_map_value> (optional): It is the color map used to convert distances to colors (default: viridis:  Low:Blue, High: Yellow, check matplotlib doc for other)<br>
 
-**Example execution: (EXTRA NOT IN MAIN PIPELINE)**<br>
+**Example execution: (EXTRA NOT IN MAIN PIPELINE)** <br>
 python3.10 compare_voxel_grids_all.py /home/christos/Desktop/Gate/thesis/3d-reconstruction/programs/evaluation_repo/vrg_colmap_reconstruction_evaluation/projects/Apple_Winter_around_20231020_162443 0.3 0.3 false viridis
 
 ### compare_voxel_grids_all_multiple.py v.1.0.0<br>
@@ -468,7 +488,7 @@ Used to run compare_voxel_grids_all.py multiple times with different bound sizes
 4. <color_map_value (optinal)>: color mapping of distances is done using matplotlib and they are a lot of options<br>
    e.g. viridis (default): Low - Blue / High - Yellow, RdY1Gn: Low - Green / High - Red<br>
 
-**Example execution:**<br>
+**Example execution:** <br>
 python3.10 compare_voxel_grids_all_multiple.py /home/christos/Desktop/Gate/thesis/3d-reconstruction/programs/evaluation_repo/vrg_colmap_reconstruction_evaluation/projects/Apple_Winter_around_20231020_162443 0.3 false viridis
 
 ### compare_metrics_all.py v.1.0.1<br>
@@ -483,7 +503,7 @@ After running compare_voxel_grids_all_multiple.py, running this script will crea
 **Arguments:** <br>
 1. <path_to_project>: provide the path to the project (that contains colmap_a_cropped_objects and gt_cropped_objects)<br>
 
-**Example execution:**<br>
+**Example execution:** <br>
 python3.10 compare_metrics_all.py /home/christos/Desktop/Gate/thesis/3d-reconstruction/programs/evaluation_repo/vrg_colmap_reconstruction_evaluation/projects/Apple_Winter_around_20231020_162443
 
 
