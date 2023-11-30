@@ -445,7 +445,7 @@ Compares Estimated (Colmap) -> Ground truth for a single cropped object and stor
 Same as compare_voxel_grid_gt.py<br>
 
 **Example execution: (EXTRA NOT IN MAIN PIPELINE)** <br>
-python3.10 compare_voxel_grid_colmap.py /home/christos/Desktop/Gate/thesis/3d-reconstruction/programs/evaluation_repo/vrg_colmap_reconstruction_evaluation/projects/Apple_Winter_around_20231020_162443/gt_cropped_objects/1_gt_Apple_Trunk1_light_voxelized.ply home/christos/Desktop/Gate/thesis/3d-reconstruction/programs/evaluation_repo/vrg_colmap_reconstruction_evaluation/projects/Apple_Winter_around_20231020_162443/colmap_a_cropped_objects/1_colmap_Apple_Trunk1_light_voxelized.ply 0.3 0.3 false viridis
+python3.10 compare_voxel_grid_colmap.py /home/christos/Desktop/Gate/thesis/3d-reconstruction/programs/evaluation_repo/vrg_colmap_reconstruction_evaluation/projects/Apple_Winter_around_20231020_162443/gt_cropped_objects/1_gt_Apple_Trunk1_light_voxelized.ply /home/christos/Desktop/Gate/thesis/3d-reconstruction/programs/evaluation_repo/vrg_colmap_reconstruction_evaluation/projects/Apple_Winter_around_20231020_162443/colmap_a_cropped_objects/1_colmap_Apple_Trunk1_light_voxelized.ply 0.3 0.3 false viridis
 
 ### compare_voxel_grids_all.py v1.0.2<br>
 **Description:** <br>
