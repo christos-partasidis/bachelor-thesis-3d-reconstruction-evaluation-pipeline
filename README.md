@@ -10,6 +10,7 @@ These paths can be chosen at your discretion, use your own paths instead of {i} 
 When running the scripts do not change the contained files within the directories involved because that could cause unwanted problems. <br>
 Also this README contains extra information to explain extra programs. Please watch out for indications of when to execute something in order to follow the MAIN PIPELINE.<br>
 If you don't see an indication saying that this is not in the MAIN PIPELINE then it belong to it so execute it. <br>
+To see any visualizations you must modify the variable within the scripts to run it in Debug mode (set it to TRUE) <br>
 
 ## 1.0.1 Install vrg_crop_gen
 Follow the process at https://github.com/VIS4ROB-lab/vrg_crop_gen and install it in a specific directory {1} <br>
@@ -474,12 +475,11 @@ python3.10 compare_voxel_grids_all.py /home/christos/Desktop/Gate/thesis/3d-reco
 
 ### compare_voxel_grids_all_multiple.py v.1.0.0<br>
 **Description:** <br>
-Used to run compare_voxel_grids_all.py multiple times with different bound sizes that are statically defined [0.2, 0.3, 0.4, 0.7, 0.9, 1.2, 1.5, 2.0, 2.5, 3.0]
-
+Used to run compare_voxel_grids_all.py multiple times with different voxel sizes and bound sizes that are statically defined [0.2, 0.3, 0.4, 0.5, 0.7, 0.9, 1.2, 1.5, 1.7,  2.0]
 **Performs the following tasks:** <br>
 
 0. Importing modules and reading arguments
-1. Run multiple times compare_voxel_grids_all.py but change the bound each time<br>
+1. Run multiple times compare_voxel_grids_all.py but change the voxel and bound size each time<br>
 
 **Arguments:** <br>
 1. <path_to_project>: provide the path to the project (that contains colmap_a_cropped_objects and gt_cropped_objects)<br>

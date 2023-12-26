@@ -27,11 +27,11 @@ print("Importing modules and reading arguments\n")
 
 print("Reading arguments")
 
-if len(sys.argv) < 3 or len(sys.argv) > 5:
+if len(sys.argv) < 2 or len(sys.argv) > 4:
     print("Length of arguments: ", len(sys.argv))
-    print("Usage: python compare_voxel_grids_all_multiple.py 1<path_to_project> 2<voxel_size> 3<random_colors_TF>(true or false) 4<color_map_value>")
+    print("Usage: python compare_voxel_grids_all_multiple.py 1<path_to_project> 2<random_colors_TF>(true or false) 3<color_map_value>")
     print("path_to_project: provide the path to the project (that contains colmap_a_cropped_objects and gt_cropped_objects)")
-    print("voxel_size: provide the voxel size of the voxel grids")
+    print("voxel_size (statically set): static values have been set")
     print("bound (statically set): static values have been set")
     print("random_colors_TF (optional): true -> random colors to voxel grids reconstructed to show matching voxels and distance coloring, false (default) -> original colors")
     print("color_map_value (optional): color mapping of distances is done using matplotlib and they are a lot of options")
@@ -49,20 +49,20 @@ if not os.path.exists(path_to_project):
 # 2. Read voxel size
 # It is used when converting centers to point cloud and creating the corresponding voxel grid
 # Attempt to convert voxel_size to a float
-try:
-    voxel_size = float(sys.argv[2])
-except ValueError:
-    print("Error: voxel_size (second argument) must be a valid float")
-    sys.exit(1)
+# try:
+#     voxel_size = float(sys.argv[2])
+# except ValueError:
+#     print("Error: voxel_size (second argument) must be a valid float")
+#     sys.exit(1)
 
-# 3. Read random_colors_TF
+# 2. Read random_colors_TF
 # True: the final voxel grids will have random colors,
 # False: the final voxel grids will have original colors
 random_colors_TF = False # default value
 
 # Check if random_colors_TF is provided
-if len(sys.argv) >= 4:
-    random_colors_str = sys.argv[3]
+if len(sys.argv) >= 3:
+    random_colors_str = sys.argv[2]
     # Check if the string is "False" and assign the boolean value
     if random_colors_str.lower() == "true":
         random_colors_TF = True
@@ -75,22 +75,22 @@ if len(sys.argv) >= 4:
         # Handle the case where the input is neither "True" nor "False"
         raise ValueError("Error: random_colors_TF (forth argument) must be either true or false.")
 
-# 4. Read color_map_value
+# 3. Read color_map_value
 # viridis:  Low:Blue, High: Yellow
 # RdYlGn_r: Low:Green, Red - High
 # check matplotlib doc for other
 color_map_value = "viridis" # default value
 
-if len(sys.argv) == 5:
-    color_map_value = sys.argv[4]
+if len(sys.argv) == 4:
+    color_map_value = sys.argv[3]
 
 # Print read arguments
 print("==============================================================================================")
 print("Read arguments")
 print("1. path_to_project: ", path_to_project)
-print("2. voxel_size: ", voxel_size)
-print("3. random_colors_TF: ", random_colors_TF)
-print("4. color_map_value: ", color_map_value)
+#print("2. voxel_size: ", voxel_size)
+print("2. random_colors_TF: ", random_colors_TF)
+print("3. color_map_value: ", color_map_value)
 #===================================================================================
 #===================================================================================
 #===================================================================================
@@ -102,15 +102,16 @@ print("4. color_map_value: ", color_map_value)
 #===================================================================================
 # List of values for the third argument
 #third_argument_values = [0.05, 0.1, 0.2, 0.7, 0.9, 1.2, 1.5, 2.0, 2.5, 3.0]
-third_argument_values = [0.2, 0.3, 0.4, 0.7, 0.9, 1.2, 1.5, 2.0, 2.5, 3.0]
+third_argument_values = [0.2, 0.3, 0.4, 0.5, 0.7, 0.9, 1.2, 1.5, 1.7, 2.0]
 
 # Construct command to execute
 base_compare_all_command = f"python3.10 compare_voxel_grids_all.py {path_to_project}"
 
 # Loop through the third argument values and execute the command
 for third_arg_value in third_argument_values:
+    print(third_arg_value)
     # Build the full command with the current third argument value
-    full_compare_all_command= f"{base_compare_all_command} {voxel_size} {third_arg_value} {random_colors_TF} {color_map_value}"
+    full_compare_all_command= f"{base_compare_all_command} {third_arg_value} {third_arg_value} {random_colors_TF} {color_map_value}"
     
     print(f"Running command: {full_compare_all_command}")
     

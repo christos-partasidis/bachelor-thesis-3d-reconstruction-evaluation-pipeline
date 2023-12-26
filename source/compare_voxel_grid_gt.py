@@ -18,7 +18,7 @@
 # 9. Print and save comparison metrics for matching (based on center w boundaries)
 
 #########################   DISTANCE CALCULATION WITH BOUNDARIES   #########################
-## TEST_2 VOXEL DISTANCE GROUND TRUTH -> COLMAP (based on center with boundaries)
+## TEST_2: VOXEL DISTANCE GROUND TRUTH -> COLMAP (based on center with boundaries)
 ## GROUND TRUTH
 # 10. Find nearest voxel at estimated voxel grid for all ground truth voxels (based on center with boundaries)
 # 11. Print and save comparison metrics for distances (based on center with boundaries)
@@ -55,21 +55,19 @@ if len(sys.argv) < 5 or len(sys.argv) > 7:
     print("Usage: python compare_voxel_grid_gt.py 1<path_to_gt_voxel_grid> 2<path_to_colmap_voxel_grid>  3<voxel_size> 4<bound> 5<random_colors_TF>(true or false) 6<color_map_value>")
     sys.exit(1)
 
-# Read voxel grid of ground truth 
+# Read arg for voxel grid of ground truth 
 path_to_gt_voxel_grid = sys.argv[1]
 
+# Check if ground truth voxel grid exists
 if not os.path.exists(path_to_gt_voxel_grid):
     raise FileNotFoundError(f"The ground truth file '{path_to_gt_voxel_grid}' does not exist. Please provide a valid path.")
 
-voxel_grid_gt = o3d.io.read_voxel_grid(path_to_gt_voxel_grid)
-
-# Read voxel grid of colmap 
+# Read arg for voxel grid of colmap 
 path_to_colmap_voxel_grid = sys.argv[2]
 
+# Check if colmap voxel grid exists
 if not os.path.exists(path_to_colmap_voxel_grid):
     raise FileNotFoundError(f"The colmap file '{path_to_colmap_voxel_grid}' does not exist. Please provide a valid path.")
-
-voxel_grid_colmap = o3d.io.read_voxel_grid(path_to_colmap_voxel_grid)
 
 # voxel_size: It is used when converting centers to point cloud and creating the
 # corresponding voxel grid
@@ -240,6 +238,12 @@ print("=========================================================================
 print("Section: 3 | " + script_name)
 print("Read voxel grids of ground truth and estimated (colmap)\n")
 print("arg0: groundtruth, arg1: colmap")
+
+# Read voxel grid of ground truth 
+voxel_grid_gt = o3d.io.read_voxel_grid(path_to_gt_voxel_grid)
+
+# Read voxel grid of colmap
+voxel_grid_colmap = o3d.io.read_voxel_grid(path_to_colmap_voxel_grid)
 
 # Visualize voxel grids
 if debug:
@@ -756,7 +760,7 @@ with open(file_path_data, 'w') as file:
 #===================================================================================
 
 ## Section: 10
-## TEST_2 VOXEL DISTANCE GROUND TRUTH -> COLMAP (based on center with boundaries)
+## TEST_2: VOXEL DISTANCE GROUND TRUTH -> COLMAP (based on center with boundaries)
 ## GROUND TRUTH
 # Find nearest voxel at estimated voxel grid for all ground truth voxels (based on center with boundaries)
 #===================================================================================
@@ -766,7 +770,7 @@ print("\n")
 print("==============================================================================================")
 print("==============================================================================================")
 print("Section: 10 | " + script_name)
-print("TEST_2 VOXEL DISTANCE GROUND TRUTH -> COLMAP (based on center with boundaries)")
+print("TEST_2: VOXEL DISTANCE GROUND TRUTH -> COLMAP (based on center with boundaries)")
 print("GROUND TRUTH")
 print("Find nearest voxel at estimated voxel grid for all ground truth voxels (based on center with boundaries)\n")
 
@@ -870,7 +874,7 @@ if debug:
 #===================================================================================
 
 ## Section: 11
-## TEST_2 VOXEL DISTANCE GROUND TRUTH -> COLMAP (based on center with boundaries)
+## TEST_2: VOXEL DISTANCE GROUND TRUTH -> COLMAP (based on center with boundaries)
 ## GROUND TRUTH
 # Print and save comparison metrics for distances (based on center with boundaries)
 #===================================================================================
@@ -880,7 +884,7 @@ print("\n")
 print("==============================================================================================")
 print("==============================================================================================")
 print("Section: 11 | " + script_name)
-print("TEST_2 VOXEL DISTANCE GROUND TRUTH -> COLMAP (based on center with boundaries)")
+print("TEST_2: VOXEL DISTANCE GROUND TRUTH -> COLMAP (based on center with boundaries)")
 print("GROUND TRUTH")
 print("Print and save comparison metrics for distances (based on center with boundaries)\n")
 
