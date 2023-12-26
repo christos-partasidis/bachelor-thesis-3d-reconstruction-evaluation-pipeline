@@ -141,7 +141,7 @@ Navigate at {6}/source and execute "bash prepare_dataset.sh"
 ![image](https://github.com/VIS4ROB-lab/vrg_colmap_reconstruction_evaluation/assets/113234371/9fcfd29e-1043-4d4e-b915-b014e2583c48 "Inside 0 directory")
 - At this point this is enough to create the evaluation of the image poses, dense reconstruction can be skipped if you only want to evaluate the estimated poses(the following steps of this section). If you want to <br>
 also evaluate the estimated scenes continue with the dense reconstruction
-**SKIP THE FOLLOWING STEPS BECAUSE FIRST THE ALIGNMENT SHOULD BE PERFORMED!**
+
 - Reconstruction → Dense reconstruction
 - Click "Select" to select a workspace, choose {6}/projects/* directory
 - Click "Undistortion"
@@ -412,7 +412,7 @@ Compares Ground truth -> Estimated (Colmap) for a single cropped object and stor
 6. <color_map_value> (optional): It is the color map used to convert distances to colors (default: viridis:  Low:Blue, High: Yellow, check matplotlib doc for other) <br>
 
 **Example execution: (EXTRA NOT IN MAIN PIPELINE)** <br>
-python3.10 compare_voxel_grid_gt.py /home/christos/Desktop/Gate/thesis/3d-reconstruction/programs/evaluation_repo/vrg_colmap_reconstruction_evaluation/projects/Apple_Winter_around_20231020_162443/gt_cropped_objects/1_gt_Apple_Trunk1_light_voxelized.ply home/christos/Desktop/Gate/thesis/3d-reconstruction/programs/evaluation_repo/vrg_colmap_reconstruction_evaluation/projects/Apple_Winter_around_20231020_162443/colmap_a_cropped_objects/1_colmap_Apple_Trunk1_light_voxelized.ply 0.3 0.3 false viridis
+python3.10 compare_voxel_grid_gt.py /home/christos/Desktop/Gate/thesis/3d-reconstruction/programs/evaluation_repo/vrg_colmap_reconstruction_evaluation/projects/Apple_Winter_around_20231020_162443/gt_cropped_objects/1_gt_Apple_Trunk1_light_voxelized.ply /home/christos/Desktop/Gate/thesis/3d-reconstruction/programs/evaluation_repo/vrg_colmap_reconstruction_evaluation/projects/Apple_Winter_around_20231020_162443/colmap_a_cropped_objects/1_colmap_Apple_Trunk1_light_voxelized.ply 0.3 0.3 false viridis
 
 ### compare_voxel_grid_colmap.py v.1.0.2<br>
 **Description:** <br>
@@ -446,7 +446,7 @@ Compares Estimated (Colmap) -> Ground truth for a single cropped object and stor
 Same as compare_voxel_grid_gt.py<br>
 
 **Example execution: (EXTRA NOT IN MAIN PIPELINE)** <br>
-python3.10 compare_voxel_grid_colmap.py /home/christos/Desktop/Gate/thesis/3d-reconstruction/programs/evaluation_repo/vrg_colmap_reconstruction_evaluation/projects/Apple_Winter_around_20231020_162443/gt_cropped_objects/1_gt_Apple_Trunk1_light_voxelized.ply home/christos/Desktop/Gate/thesis/3d-reconstruction/programs/evaluation_repo/vrg_colmap_reconstruction_evaluation/projects/Apple_Winter_around_20231020_162443/colmap_a_cropped_objects/1_colmap_Apple_Trunk1_light_voxelized.ply 0.3 0.3 false viridis
+python3.10 compare_voxel_grid_colmap.py /home/christos/Desktop/Gate/thesis/3d-reconstruction/programs/evaluation_repo/vrg_colmap_reconstruction_evaluation/projects/Apple_Winter_around_20231020_162443/gt_cropped_objects/1_gt_Apple_Trunk1_light_voxelized.ply /home/christos/Desktop/Gate/thesis/3d-reconstruction/programs/evaluation_repo/vrg_colmap_reconstruction_evaluation/projects/Apple_Winter_around_20231020_162443/colmap_a_cropped_objects/1_colmap_Apple_Trunk1_light_voxelized.ply 0.3 0.3 false viridis
 
 ### compare_voxel_grids_all.py v1.0.2<br>
 **Description:** <br>
@@ -470,7 +470,7 @@ creates average metrics for all objects
 4. <random_colors_TF> (optional): True: the final voxel grids will have random colors, False (default): the final voxel grids will have original colors<br>
 5. <color_map_value> (optional): It is the color map used to convert distances to colors (default: viridis:  Low:Blue, High: Yellow, check matplotlib doc for other)<br>
 
-**Example execution: (EXTRA NOT IN MAIN PIPELINE)** <br>
+**Example execution:** <br>
 python3.10 compare_voxel_grids_all.py /home/christos/Desktop/Gate/thesis/3d-reconstruction/programs/evaluation_repo/vrg_colmap_reconstruction_evaluation/projects/Apple_Winter_around_20231020_162443 0.3 0.3 false viridis
 
 ### compare_voxel_grids_all_multiple.py v.1.0.0<br>
@@ -488,7 +488,7 @@ Used to run compare_voxel_grids_all.py multiple times with different voxel sizes
 4. <color_map_value (optinal)>: color mapping of distances is done using matplotlib and they are a lot of options<br>
    e.g. viridis (default): Low - Blue / High - Yellow, RdY1Gn: Low - Green / High - Red<br>
 
-**Example execution:** <br>
+**Example execution: (EXTRA NOT IN MAIN PIPELINE)** <br>
 python3.10 compare_voxel_grids_all_multiple.py /home/christos/Desktop/Gate/thesis/3d-reconstruction/programs/evaluation_repo/vrg_colmap_reconstruction_evaluation/projects/Apple_Winter_around_20231020_162443 0.3 false viridis
 
 ### compare_metrics_all.py v.1.0.1<br>
@@ -503,7 +503,7 @@ After running compare_voxel_grids_all_multiple.py, running this script will crea
 **Arguments:** <br>
 1. <path_to_project>: provide the path to the project (that contains colmap_a_cropped_objects and gt_cropped_objects)<br>
 
-**Example execution:** <br>
+**Example execution: (EXTRA NOT IN MAIN PIPELINE)** <br>
 python3.10 compare_metrics_all.py /home/christos/Desktop/Gate/thesis/3d-reconstruction/programs/evaluation_repo/vrg_colmap_reconstruction_evaluation/projects/Apple_Winter_around_20231020_162443
 
 
