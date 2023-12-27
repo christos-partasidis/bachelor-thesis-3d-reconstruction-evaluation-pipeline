@@ -11,13 +11,18 @@ When running the scripts do not change the contained files within the directorie
 Also this README contains extra information to explain extra programs. Please watch out for indications of when to execute something in order to follow the MAIN PIPELINE.<br>
 If you don't see an indication saying that this is not in the MAIN PIPELINE then it belong to it so execute it. <br>
 To see any visualizations you must modify the variable within the scripts to run it in Debug mode (set it to TRUE) <br>
+For further details check the report of this work <br>
 
 ## 1.0.1 Install vrg_crop_gen
 Follow the process at https://github.com/VIS4ROB-lab/vrg_crop_gen and install it in a specific directory {1} <br>
 Warning! The vrglasses_csv that must be installed with vrg_crop_gen (in vrg_crop_gen documentation) must be placed inside the dedicated folder found within vrg_crop_gen or else the scripts 
 will not work and manual changes must be done
 
-{1} = "/home/christos/Desktop/Gate/thesis/3d-reconstruction/programs/dataset-simulation-fixing"
+{1} = "/home/christos/Desktop/Gate/thesis/3d-reconstruction/programs/dataset-simulation-fixing"<br>
+
+Within the report you will see experiments that have modified the view of the images. If you want to <br>
+add degrees to the around trajectory (see explanation in report) like in the experiments the create_view.py <br>
+with modifications is provided here so you can replace it with the default one<br>
 
 ## 1.0.2 Install colmap
 Follow the installation process at https://colmap.github.io/install.html and install it in a specific directory {2} <br>
