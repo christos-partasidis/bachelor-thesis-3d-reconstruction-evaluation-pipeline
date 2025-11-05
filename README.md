@@ -1,6 +1,9 @@
 # Description
 This repository seeks to document and automate the evaluation process of the image poses and the scene generated using colmap
 
+**Bachelor Thesis PDF:**  
+[Download the full thesis](./Bachelor%27s%20Thesis%20Report%20by%20Christos%20Partasidis.pdf)
+
 ## 1.0.0 General Info
 OS: Ubuntu 22.04 <br>
 python: 3.10 <br>
